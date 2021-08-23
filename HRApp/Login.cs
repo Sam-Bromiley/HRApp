@@ -30,6 +30,20 @@ namespace HRApp
 
         private void btnLogin_Click(object sender, EventArgs e)
         {
+
+            login();
+        }
+
+        private void Login_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.KeyCode == Keys.Enter)
+            {
+                login();
+            }
+        }
+
+        public void login()
+        {
             try
             {
                 var username = tbUsername.Text.Trim();
@@ -37,23 +51,26 @@ namespace HRApp
 
                 var user = _db.Users.FirstOrDefault(q => q.Username == username && q.Password == hashed_password && q.isActive == true);
 
-                    if(user == null)
+                if (user == null)
                 {
                     MessageBox.Show("Invalid credentials. Please enter your username and password to login");
-                } 
-                    else
+                }
+                else
                 {
                     var mainForm = new MainForm(this, user);
                     mainForm.Show();
                     Hide();
                 }
-                   
+
             }
             catch (Exception ex)
             {
                 MessageBox.Show($"Error: {ex.Message}");
             }
-            
         }
+
+        
     }
+
+        
 }

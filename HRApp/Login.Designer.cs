@@ -119,8 +119,10 @@ namespace HRApp
             this.Controls.Add(this.lblPassword);
             this.Controls.Add(this.lblUsername);
             this.Controls.Add(this.lblLogin);
+            this.KeyPreview = true;
             this.Name = "Login";
             this.Text = "Login";
+            this.KeyDown += new System.Windows.Forms.KeyEventHandler(this.Login_KeyDown);
             this.ResumeLayout(false);
             this.PerformLayout();
 

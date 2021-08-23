@@ -102,11 +102,11 @@ namespace HRApp
         public void PopulateEmployees(int DepartmnentId)
         {
             var filterOption = _db.Employees.Where(q => q.DepartmentId == DepartmnentId);
-            if(cbDepartmentFilter == null)
+            if(cbDepartmentFilter.SelectedValue == null)
             {
                 filterOption = _db.Employees.Where(q => q.OfficeLocationId == DepartmnentId);
             }
-            var employees = _db.Employees.Where(q => q.DepartmentId == DepartmnentId)
+            var employees = filterOption
                 .Select(q => new
             {
                 ID = q.id,
@@ -202,7 +202,6 @@ namespace HRApp
         private void btnClearSearch_Click(object sender, EventArgs e)
         {
             PopulateEmployees();
-            btnClearSearch.Visible = false;
         }
 
         private void cbDepartmentFilter_SelectedIndexChanged(object sender, EventArgs e)

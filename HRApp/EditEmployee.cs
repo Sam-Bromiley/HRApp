@@ -60,6 +60,9 @@ namespace HRApp
             dtDateLeft.Value = (DateTime)employeeToEdit.DateLeft;
             chkLeaver.Checked = (bool)employeeToEdit.Leaver;
             tbExtensionNumber.Text = employeeToEdit.ExtensionNumber.ToString();
+            cbDepartment.SelectedValue = employeeToEdit.DepartmentId;
+            cbOfficeLocation.SelectedValue = employeeToEdit.OfficeLocationId;
+
 
 
         }
