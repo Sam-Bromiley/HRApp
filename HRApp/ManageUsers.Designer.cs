@@ -53,12 +53,13 @@ namespace HRApp
             this.gvUsers.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.gvUsers.Location = new System.Drawing.Point(16, 51);
             this.gvUsers.Name = "gvUsers";
-            this.gvUsers.Size = new System.Drawing.Size(343, 272);
+            this.gvUsers.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
+            this.gvUsers.Size = new System.Drawing.Size(589, 272);
             this.gvUsers.TabIndex = 3;
             // 
             // btnCancel
             // 
-            this.btnCancel.Location = new System.Drawing.Point(278, 396);
+            this.btnCancel.Location = new System.Drawing.Point(533, 396);
             this.btnCancel.Name = "btnCancel";
             this.btnCancel.Size = new System.Drawing.Size(80, 42);
             this.btnCancel.TabIndex = 4;
@@ -68,9 +69,9 @@ namespace HRApp
             // 
             // btnActivate
             // 
-            this.btnActivate.Location = new System.Drawing.Point(114, 396);
+            this.btnActivate.Location = new System.Drawing.Point(158, 396);
             this.btnActivate.Name = "btnActivate";
-            this.btnActivate.Size = new System.Drawing.Size(120, 42);
+            this.btnActivate.Size = new System.Drawing.Size(142, 42);
             this.btnActivate.TabIndex = 5;
             this.btnActivate.Text = "Activate/Deactivate User";
             this.btnActivate.UseVisualStyleBackColor = true;
@@ -80,7 +81,7 @@ namespace HRApp
             // 
             this.btnAddUser.Location = new System.Drawing.Point(16, 396);
             this.btnAddUser.Name = "btnAddUser";
-            this.btnAddUser.Size = new System.Drawing.Size(92, 42);
+            this.btnAddUser.Size = new System.Drawing.Size(136, 42);
             this.btnAddUser.TabIndex = 6;
             this.btnAddUser.Text = "Add New User";
             this.btnAddUser.UseVisualStyleBackColor = true;
@@ -99,7 +100,7 @@ namespace HRApp
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(383, 450);
+            this.ClientSize = new System.Drawing.Size(625, 450);
             this.Controls.Add(this.lblId);
             this.Controls.Add(this.btnAddUser);
             this.Controls.Add(this.btnActivate);

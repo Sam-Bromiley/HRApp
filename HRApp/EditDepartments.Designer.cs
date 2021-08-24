@@ -54,6 +54,7 @@ namespace HRApp
             this.gvDepartments.EditMode = System.Windows.Forms.DataGridViewEditMode.EditOnEnter;
             this.gvDepartments.Location = new System.Drawing.Point(16, 45);
             this.gvDepartments.Name = "gvDepartments";
+            this.gvDepartments.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
             this.gvDepartments.Size = new System.Drawing.Size(447, 277);
             this.gvDepartments.TabIndex = 2;
             // 

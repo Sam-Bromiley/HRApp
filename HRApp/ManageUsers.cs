@@ -46,17 +46,27 @@ namespace HRApp
 
         private void btnActivate_Click(object sender, EventArgs e)
         {
-            var id = (int)gvUsers.SelectedRows[0].Cells["id"].Value;
-            var user = _db.Users.FirstOrDefault(q => q.id == id);
+            try
+            {
+                var id = (int)gvUsers.SelectedRows[0].Cells["id"].Value;
+                var user = _db.Users.FirstOrDefault(q => q.id == id);
 
-            if((bool)user.isActive)
-            {
-                user.isActive = false;
+                if ((bool)user.isActive)
+                {
+                    user.isActive = false;
+                }
+                else
+                {
+                    user.isActive = true;
+                }
+                _db.SaveChanges();
+                PopulateUsers();
             }
-            else
+            catch (Exception ex)
             {
-                user.isActive = true;
+                MessageBox.Show($"Error: {ex.Message}");
             }
+            
         }
 
         private void btnAddUser_Click(object sender, EventArgs e)

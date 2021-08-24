@@ -29,7 +29,7 @@ namespace HRApp
         /// </summary>
         private void InitializeComponent()
         {
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
             this.lblManageEmployees = new System.Windows.Forms.Label();
             this.gvEmployeeList = new System.Windows.Forms.DataGridView();
             this.btnAddEmployee = new System.Windows.Forms.Button();
@@ -61,8 +61,8 @@ namespace HRApp
             // 
             // gvEmployeeList
             // 
-            dataGridViewCellStyle2.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
-            this.gvEmployeeList.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle2;
+            dataGridViewCellStyle3.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
+            this.gvEmployeeList.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle3;
             this.gvEmployeeList.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.gvEmployeeList.Location = new System.Drawing.Point(11, 86);
             this.gvEmployeeList.Name = "gvEmployeeList";
@@ -129,7 +129,7 @@ namespace HRApp
             // 
             // btnClearSearch
             // 
-            this.btnClearSearch.Location = new System.Drawing.Point(538, 50);
+            this.btnClearSearch.Location = new System.Drawing.Point(561, 50);
             this.btnClearSearch.Name = "btnClearSearch";
             this.btnClearSearch.Size = new System.Drawing.Size(108, 26);
             this.btnClearSearch.TabIndex = 8;
