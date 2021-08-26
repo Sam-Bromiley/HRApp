@@ -13,10 +13,12 @@ namespace HRApp
     public partial class ManageEmployees : Form
     {
         private readonly HRAppEntities _db;
-        public ManageEmployees()
+        private User _user;
+        public ManageEmployees(User user)
         {
             InitializeComponent();
             _db = new HRAppEntities();
+            _user = user;
         }
 
         private void ManageEmployees_Load(object sender, EventArgs e)
@@ -55,11 +57,17 @@ namespace HRApp
             cbLocationFilter.SelectedItem = null;
             cbLocationFilter.Text = "--Select--";
             //btnSearch.BackColor = Color.FromArgb(125,65,221);
+            if(_user.RoleId == 3)
+            {
+                btnAddEmployee.Enabled = false;
+                btnEditEmployee.Text = "View Employee";
+                btnDeleteEmployee.Enabled = false;
+            }
             PopulateEmployees();
         }
         private void btnAddEmployee_Click(object sender, EventArgs e)
         {
-            var addEmployee = new EditEmployee(this);
+            var addEmployee = new EditEmployee(_user, this);
             addEmployee.StartPosition = FormStartPosition.CenterScreen;
             addEmployee.MdiParent = this.MdiParent;
             addEmployee.Show();
@@ -68,7 +76,7 @@ namespace HRApp
         {
             var id = (int)gvEmployeeList.SelectedRows[0].Cells["id"].Value;
             var employee = _db.Employees.FirstOrDefault(q => q.id == id);
-            var editEmployee = new EditEmployee(employee, this);
+            var editEmployee = new EditEmployee(employee, _user, this);
 
             editEmployee.StartPosition = FormStartPosition.CenterScreen;
             editEmployee.MdiParent = this.MdiParent;

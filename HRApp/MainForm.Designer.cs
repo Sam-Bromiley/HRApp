@@ -30,19 +30,18 @@ namespace HRApp
         private void InitializeComponent()
         {
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
-            this.fileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.employeesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.manageEmployeesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.settingsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.departmentsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.officeLocationsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.manageUsersToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.aboutToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.featuresRoadmapToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.aboutHRAppToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.statusStrip1 = new System.Windows.Forms.StatusStrip();
             this.tsLoggedInAs = new System.Windows.Forms.ToolStripStatusLabel();
             this.tsNumberOfEmployees = new System.Windows.Forms.ToolStripStatusLabel();
-            this.manageUsersToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.menuStrip1.SuspendLayout();
             this.statusStrip1.SuspendLayout();
             this.SuspendLayout();
@@ -50,7 +49,6 @@ namespace HRApp
             // menuStrip1
             // 
             this.menuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.fileToolStripMenuItem,
             this.employeesToolStripMenuItem,
             this.settingsToolStripMenuItem,
             this.aboutToolStripMenuItem});
@@ -59,12 +57,6 @@ namespace HRApp
             this.menuStrip1.Size = new System.Drawing.Size(800, 24);
             this.menuStrip1.TabIndex = 0;
             this.menuStrip1.Text = "menuStrip1";
-            // 
-            // fileToolStripMenuItem
-            // 
-            this.fileToolStripMenuItem.Name = "fileToolStripMenuItem";
-            this.fileToolStripMenuItem.Size = new System.Drawing.Size(37, 20);
-            this.fileToolStripMenuItem.Text = "File";
             // 
             // employeesToolStripMenuItem
             // 
@@ -77,7 +69,7 @@ namespace HRApp
             // manageEmployeesToolStripMenuItem
             // 
             this.manageEmployeesToolStripMenuItem.Name = "manageEmployeesToolStripMenuItem";
-            this.manageEmployeesToolStripMenuItem.Size = new System.Drawing.Size(177, 22);
+            this.manageEmployeesToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.manageEmployeesToolStripMenuItem.Text = "Manage Employees";
             this.manageEmployeesToolStripMenuItem.Click += new System.EventHandler(this.manageEmployeesToolStripMenuItem_Click);
             // 
@@ -104,6 +96,13 @@ namespace HRApp
             this.officeLocationsToolStripMenuItem.Size = new System.Drawing.Size(206, 22);
             this.officeLocationsToolStripMenuItem.Text = "Manage Office Locations";
             // 
+            // manageUsersToolStripMenuItem
+            // 
+            this.manageUsersToolStripMenuItem.Name = "manageUsersToolStripMenuItem";
+            this.manageUsersToolStripMenuItem.Size = new System.Drawing.Size(206, 22);
+            this.manageUsersToolStripMenuItem.Text = "Manage Users";
+            this.manageUsersToolStripMenuItem.Click += new System.EventHandler(this.manageUsersToolStripMenuItem_Click);
+            // 
             // aboutToolStripMenuItem
             // 
             this.aboutToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
@@ -116,14 +115,14 @@ namespace HRApp
             // featuresRoadmapToolStripMenuItem
             // 
             this.featuresRoadmapToolStripMenuItem.Name = "featuresRoadmapToolStripMenuItem";
-            this.featuresRoadmapToolStripMenuItem.Size = new System.Drawing.Size(172, 22);
+            this.featuresRoadmapToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.featuresRoadmapToolStripMenuItem.Text = "Features Roadmap";
             this.featuresRoadmapToolStripMenuItem.Click += new System.EventHandler(this.featuresRoadmapToolStripMenuItem_Click);
             // 
             // aboutHRAppToolStripMenuItem
             // 
             this.aboutHRAppToolStripMenuItem.Name = "aboutHRAppToolStripMenuItem";
-            this.aboutHRAppToolStripMenuItem.Size = new System.Drawing.Size(172, 22);
+            this.aboutHRAppToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.aboutHRAppToolStripMenuItem.Text = "About HR App";
             // 
             // statusStrip1
@@ -147,13 +146,6 @@ namespace HRApp
             this.tsNumberOfEmployees.Name = "tsNumberOfEmployees";
             this.tsNumberOfEmployees.RightToLeft = System.Windows.Forms.RightToLeft.No;
             this.tsNumberOfEmployees.Size = new System.Drawing.Size(0, 17);
-            // 
-            // manageUsersToolStripMenuItem
-            // 
-            this.manageUsersToolStripMenuItem.Name = "manageUsersToolStripMenuItem";
-            this.manageUsersToolStripMenuItem.Size = new System.Drawing.Size(206, 22);
-            this.manageUsersToolStripMenuItem.Text = "Manage Users";
-            this.manageUsersToolStripMenuItem.Click += new System.EventHandler(this.manageUsersToolStripMenuItem_Click);
             // 
             // MainForm
             // 
@@ -180,7 +172,6 @@ namespace HRApp
         #endregion
 
         private System.Windows.Forms.MenuStrip menuStrip1;
-        private System.Windows.Forms.ToolStripMenuItem fileToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem employeesToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem manageEmployeesToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem settingsToolStripMenuItem;

@@ -1,4 +1,5 @@
-﻿using System;
+﻿
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -15,7 +16,8 @@ namespace HRApp
         private readonly HRAppEntities _db;
         private ManageEmployees _manageEmployees;
         private bool isEditMode;
-        public EditEmployee(ManageEmployees manageEmployees = null)
+        private User _user;
+        public EditEmployee(User user, ManageEmployees manageEmployees = null)
         {
             InitializeComponent();
             _db = new HRAppEntities();
@@ -27,9 +29,10 @@ namespace HRApp
             dtDateOfBirth.Value = DateTime.Today;
             dtDateStarted.Value = DateTime.Today;
             dtDateLeft.Value = DateTime.Today;
+            _user = user;
         }
 
-        public EditEmployee(Employee employeeToEdit, ManageEmployees manageEmployees = null)
+        public EditEmployee(Employee employeeToEdit, User user, ManageEmployees manageEmployees = null)
         {
             InitializeComponent();
             _db = new HRAppEntities();
@@ -38,6 +41,7 @@ namespace HRApp
             this.Text = "Edit Employee";
             PopulateFields(employeeToEdit);
             isEditMode = true;
+            _user = user;
         }
 
         private void PopulateFields(Employee employeeToEdit)
@@ -112,6 +116,35 @@ namespace HRApp
                 tbPostcode.BackColor = Color.LightGoldenrodYellow;
                 tbNINO.BackColor = Color.LightGoldenrodYellow;
                 lblMessage.Text = "Please ensure all mandatory fields highlighted have been filled out correctly before saving";
+            }
+
+            if (_user.RoleId == 3)
+            {
+                tbSurname.Enabled = false;
+                tbForename.Enabled = false;
+                tbMiddleName.Enabled = false;
+                tbKnownAs.Enabled = false;
+                tbAddress1.Enabled = false;
+                tbAddress2.Enabled = false;
+                tbAddress3.Enabled = false;
+                tbAddress4.Enabled = false;
+                tbPostcode.Enabled = false;
+                dtDateOfBirth.Enabled = false;
+                tbNINO.Enabled = false;
+                cbGender.Enabled = false;
+                cbMaritalStatus.Enabled = false;
+                tbJobTitle.Enabled = false;
+                cbDepartment.Enabled = false;
+                tbSalary.Enabled = false;
+                dtDateStarted.Enabled = false;
+                chkLeaver.Enabled = false;
+                dtDateLeft.Enabled = false;
+                tbExtensionNumber.Enabled = false;
+                cbReportsTo.Enabled = false;
+                cbOfficeLocation.Enabled = false;
+                cbTypeOfEmployee.Enabled = false;
+                btnSave.Visible = false;
+                btnCancel.Text = "OK";
             }
         }
 

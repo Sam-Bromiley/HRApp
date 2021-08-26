@@ -26,11 +26,14 @@ namespace HRApp
             var roles = _db.Roles.Select(q => new
             {
                 ID = q.id,
-                q.RoleName
+                q.RoleName,
+                q.description
             }).ToList();
             cbRoles.DataSource = roles;
+
             cbRoles.DisplayMember = "RoleName";
             cbRoles.ValueMember = "id";
+
         }
         private void btnCancel_Click(object sender, EventArgs e)
         {
@@ -57,6 +60,6 @@ namespace HRApp
             
         }
 
-        
+       
     }
 }

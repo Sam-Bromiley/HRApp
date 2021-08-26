@@ -35,14 +35,15 @@ namespace HRApp
 
             tsLoggedInAs.Text = $"Logged in as: {_user.Username} |";
 
-            if(_user.Username != "admin")
+            if(_user.RoleId != 1)
             {
-                manageUsersToolStripMenuItem.Visible = false;
+                settingsToolStripMenuItem.Visible = false;
+                featuresRoadmapToolStripMenuItem.Visible = false;
             }
         }
         private void manageEmployeesToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            var manageEmployees = new ManageEmployees();
+            var manageEmployees = new ManageEmployees(_user);
             manageEmployees.MdiParent = this;
             manageEmployees.Show();
         }

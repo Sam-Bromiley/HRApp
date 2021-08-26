@@ -78,6 +78,7 @@
           <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="RoleName" Type="nvarchar" MaxLength="50" />
           <Property Name="shortname" Type="nvarchar" MaxLength="50" />
+          <Property Name="description" Type="nvarchar" MaxLength="200" />
         </EntityType>
         <EntityType Name="SearchTypes">
           <Key>
@@ -442,6 +443,7 @@
           <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="RoleName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="shortname" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="description" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
           <NavigationProperty Name="Users" Relationship="HRAppModel.FK_Users_Roles" FromRole="Role" ToRole="User" />
         </EntityType>
         <EntityType Name="User">
@@ -564,6 +566,7 @@
           <EntitySetMapping Name="Roles">
             <EntityTypeMapping TypeName="HRAppModel.Role">
               <MappingFragment StoreEntitySet="Roles">
+                <ScalarProperty Name="description" ColumnName="description" />
                 <ScalarProperty Name="shortname" ColumnName="shortname" />
                 <ScalarProperty Name="RoleName" ColumnName="RoleName" />
                 <ScalarProperty Name="id" ColumnName="id" />

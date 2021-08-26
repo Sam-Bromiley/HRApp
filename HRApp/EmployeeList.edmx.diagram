@@ -19,7 +19,7 @@
         <AssociationConnector Association="HRAppModel.FK_Employees_MaritalStatus" />
         <AssociationConnector Association="HRAppModel.FK_Employees_OfficeLocations" />
         <AssociationConnector Association="HRAppModel.FK_Employees_TypeOfEmployee" />
-        <EntityTypeShape EntityType="HRAppModel.Role" Width="1.5" PointX="5.375" PointY="7.125" />
+        <EntityTypeShape EntityType="HRAppModel.Role" Width="1.5" PointX="5.375" PointY="7" />
         <EntityTypeShape EntityType="HRAppModel.User" Width="1.5" PointX="7.625" PointY="6.875" />
         <AssociationConnector Association="HRAppModel.FK_Users_Roles" />
         </Diagram>

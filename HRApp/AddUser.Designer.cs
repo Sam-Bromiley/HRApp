@@ -38,6 +38,7 @@ namespace HRApp
             this.cbRoles = new System.Windows.Forms.ComboBox();
             this.btnSave = new System.Windows.Forms.Button();
             this.btnCancel = new System.Windows.Forms.Button();
+            this.lblRoleDescription = new System.Windows.Forms.Label();
             this.SuspendLayout();
             // 
             // lblAddUser
@@ -84,14 +85,14 @@ namespace HRApp
             // 
             this.tbUsername.Location = new System.Drawing.Point(120, 71);
             this.tbUsername.Name = "tbUsername";
-            this.tbUsername.Size = new System.Drawing.Size(171, 20);
+            this.tbUsername.Size = new System.Drawing.Size(266, 20);
             this.tbUsername.TabIndex = 7;
             // 
             // tbPassword
             // 
             this.tbPassword.Location = new System.Drawing.Point(120, 119);
             this.tbPassword.Name = "tbPassword";
-            this.tbPassword.Size = new System.Drawing.Size(171, 20);
+            this.tbPassword.Size = new System.Drawing.Size(266, 20);
             this.tbPassword.TabIndex = 10;
             // 
             // cbRoles
@@ -99,12 +100,12 @@ namespace HRApp
             this.cbRoles.FormattingEnabled = true;
             this.cbRoles.Location = new System.Drawing.Point(120, 168);
             this.cbRoles.Name = "cbRoles";
-            this.cbRoles.Size = new System.Drawing.Size(171, 21);
+            this.cbRoles.Size = new System.Drawing.Size(266, 21);
             this.cbRoles.TabIndex = 11;
             // 
             // btnSave
             // 
-            this.btnSave.Location = new System.Drawing.Point(73, 229);
+            this.btnSave.Location = new System.Drawing.Point(98, 340);
             this.btnSave.Name = "btnSave";
             this.btnSave.Size = new System.Drawing.Size(106, 32);
             this.btnSave.TabIndex = 12;
@@ -114,7 +115,7 @@ namespace HRApp
             // 
             // btnCancel
             // 
-            this.btnCancel.Location = new System.Drawing.Point(185, 229);
+            this.btnCancel.Location = new System.Drawing.Point(210, 340);
             this.btnCancel.Name = "btnCancel";
             this.btnCancel.Size = new System.Drawing.Size(106, 32);
             this.btnCancel.TabIndex = 13;
@@ -122,11 +123,21 @@ namespace HRApp
             this.btnCancel.UseVisualStyleBackColor = true;
             this.btnCancel.Click += new System.EventHandler(this.btnCancel_Click);
             // 
+            // lblRoleDescription
+            // 
+            this.lblRoleDescription.AutoSize = true;
+            this.lblRoleDescription.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblRoleDescription.Location = new System.Drawing.Point(19, 216);
+            this.lblRoleDescription.Name = "lblRoleDescription";
+            this.lblRoleDescription.Size = new System.Drawing.Size(0, 17);
+            this.lblRoleDescription.TabIndex = 14;
+            // 
             // AddUser
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(328, 307);
+            this.ClientSize = new System.Drawing.Size(419, 401);
+            this.Controls.Add(this.lblRoleDescription);
             this.Controls.Add(this.btnCancel);
             this.Controls.Add(this.btnSave);
             this.Controls.Add(this.cbRoles);
@@ -155,5 +166,6 @@ namespace HRApp
         private System.Windows.Forms.ComboBox cbRoles;
         private System.Windows.Forms.Button btnSave;
         private System.Windows.Forms.Button btnCancel;
+        private System.Windows.Forms.Label lblRoleDescription;
     }
 }
