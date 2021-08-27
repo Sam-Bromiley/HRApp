@@ -35,10 +35,19 @@ namespace HRApp
 
         private void btnAddDepartment_Click(object sender, EventArgs e)
         {
-            var addEditDepartment = new AddEditDepartment(this);
-            addEditDepartment.MdiParent = this.MdiParent;
-            addEditDepartment.StartPosition = FormStartPosition.CenterScreen;
-            addEditDepartment.Show();
+            var addDepartment = new Department
+            {
+                DepartmentName = tbNewDepartment.Text
+            };
+            _db.Departments.Add(addDepartment);
+            _db.SaveChanges();
+            PopulateList();
+
+
+            //var addEditDepartment = new AddEditDepartment(this);
+            //addEditDepartment.MdiParent = this.MdiParent;
+            //addEditDepartment.StartPosition = FormStartPosition.CenterScreen;
+            //addEditDepartment.Show();
         }
 
         private void btnEditDepartment_Click(object sender, EventArgs e)

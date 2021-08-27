@@ -35,6 +35,7 @@ namespace HRApp
             this.btnAddDepartment = new System.Windows.Forms.Button();
             this.btnEditDepartment = new System.Windows.Forms.Button();
             this.btnDeleteDepartment = new System.Windows.Forms.Button();
+            this.tbNewDepartment = new System.Windows.Forms.TextBox();
             ((System.ComponentModel.ISupportInitialize)(this.gvDepartments)).BeginInit();
             this.SuspendLayout();
             // 
@@ -70,7 +71,7 @@ namespace HRApp
             // 
             // btnAddDepartment
             // 
-            this.btnAddDepartment.Location = new System.Drawing.Point(16, 355);
+            this.btnAddDepartment.Location = new System.Drawing.Point(216, 328);
             this.btnAddDepartment.Name = "btnAddDepartment";
             this.btnAddDepartment.Size = new System.Drawing.Size(100, 26);
             this.btnAddDepartment.TabIndex = 25;
@@ -80,7 +81,7 @@ namespace HRApp
             // 
             // btnEditDepartment
             // 
-            this.btnEditDepartment.Location = new System.Drawing.Point(121, 355);
+            this.btnEditDepartment.Location = new System.Drawing.Point(16, 424);
             this.btnEditDepartment.Name = "btnEditDepartment";
             this.btnEditDepartment.Size = new System.Drawing.Size(100, 26);
             this.btnEditDepartment.TabIndex = 26;
@@ -90,7 +91,7 @@ namespace HRApp
             // 
             // btnDeleteDepartment
             // 
-            this.btnDeleteDepartment.Location = new System.Drawing.Point(227, 355);
+            this.btnDeleteDepartment.Location = new System.Drawing.Point(122, 424);
             this.btnDeleteDepartment.Name = "btnDeleteDepartment";
             this.btnDeleteDepartment.Size = new System.Drawing.Size(100, 26);
             this.btnDeleteDepartment.TabIndex = 27;
@@ -98,11 +99,19 @@ namespace HRApp
             this.btnDeleteDepartment.UseVisualStyleBackColor = true;
             this.btnDeleteDepartment.Click += new System.EventHandler(this.btnDeleteDepartment_Click);
             // 
+            // tbNewDepartment
+            // 
+            this.tbNewDepartment.Location = new System.Drawing.Point(16, 328);
+            this.tbNewDepartment.Name = "tbNewDepartment";
+            this.tbNewDepartment.Size = new System.Drawing.Size(194, 20);
+            this.tbNewDepartment.TabIndex = 28;
+            // 
             // EditDepartments
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(497, 495);
+            this.Controls.Add(this.tbNewDepartment);
             this.Controls.Add(this.btnDeleteDepartment);
             this.Controls.Add(this.btnEditDepartment);
             this.Controls.Add(this.btnAddDepartment);
@@ -126,5 +135,6 @@ namespace HRApp
         private System.Windows.Forms.Button btnAddDepartment;
         private System.Windows.Forms.Button btnEditDepartment;
         private System.Windows.Forms.Button btnDeleteDepartment;
+        private System.Windows.Forms.TextBox tbNewDepartment;
     }
 }

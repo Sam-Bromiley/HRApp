@@ -76,5 +76,13 @@ namespace HRApp
             manageUsers.StartPosition = FormStartPosition.CenterScreen;
             manageUsers.Show();
         }
+
+        private void aboutHRAppToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            var about = new About();
+            about.MdiParent = this;
+            about.StartPosition = FormStartPosition.CenterScreen;
+            about.Show();
+        }
     }
 }

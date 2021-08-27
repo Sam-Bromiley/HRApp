@@ -69,7 +69,7 @@ namespace HRApp
             // manageEmployeesToolStripMenuItem
             // 
             this.manageEmployeesToolStripMenuItem.Name = "manageEmployeesToolStripMenuItem";
-            this.manageEmployeesToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.manageEmployeesToolStripMenuItem.Size = new System.Drawing.Size(177, 22);
             this.manageEmployeesToolStripMenuItem.Text = "Manage Employees";
             this.manageEmployeesToolStripMenuItem.Click += new System.EventHandler(this.manageEmployeesToolStripMenuItem_Click);
             // 
@@ -124,6 +124,7 @@ namespace HRApp
             this.aboutHRAppToolStripMenuItem.Name = "aboutHRAppToolStripMenuItem";
             this.aboutHRAppToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.aboutHRAppToolStripMenuItem.Text = "About HR App";
+            this.aboutHRAppToolStripMenuItem.Click += new System.EventHandler(this.aboutHRAppToolStripMenuItem_Click);
             // 
             // statusStrip1
             // 

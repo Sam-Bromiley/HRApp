@@ -77,6 +77,7 @@ namespace HRApp
             this.chkLeaver = new System.Windows.Forms.CheckBox();
             this.lblId = new System.Windows.Forms.Label();
             this.lblMessage = new System.Windows.Forms.Label();
+            this.btnQualifications = new System.Windows.Forms.Button();
             this.gbName.SuspendLayout();
             this.gbAddress.SuspendLayout();
             this.SuspendLayout();
@@ -520,11 +521,22 @@ namespace HRApp
             this.lblMessage.Size = new System.Drawing.Size(0, 17);
             this.lblMessage.TabIndex = 33;
             // 
+            // btnQualifications
+            // 
+            this.btnQualifications.Location = new System.Drawing.Point(76, 617);
+            this.btnQualifications.Name = "btnQualifications";
+            this.btnQualifications.Size = new System.Drawing.Size(100, 26);
+            this.btnQualifications.TabIndex = 34;
+            this.btnQualifications.Text = "Qualifications";
+            this.btnQualifications.UseVisualStyleBackColor = true;
+            this.btnQualifications.Click += new System.EventHandler(this.btnQualifications_Click);
+            // 
             // EditEmployee
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(962, 666);
+            this.Controls.Add(this.btnQualifications);
             this.Controls.Add(this.lblMessage);
             this.Controls.Add(this.lblId);
             this.Controls.Add(this.chkLeaver);
@@ -622,5 +634,6 @@ namespace HRApp
         private System.Windows.Forms.Label lblForename;
         private System.Windows.Forms.Label lblSurname;
         private System.Windows.Forms.Label lblMessage;
+        private System.Windows.Forms.Button btnQualifications;
     }
 }

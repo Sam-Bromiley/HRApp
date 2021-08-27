@@ -14,6 +14,12 @@ namespace HRApp
     
     public partial class Employee
     {
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
+        public Employee()
+        {
+            this.Qualifications = new HashSet<Qualification>();
+        }
+    
         public int id { get; set; }
         public string Surname { get; set; }
         public string Forename { get; set; }
@@ -44,5 +50,7 @@ namespace HRApp
         public virtual MaritalStatu MaritalStatu { get; set; }
         public virtual OfficeLocation OfficeLocation { get; set; }
         public virtual TypeOfEmployee TypeOfEmployee { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<Qualification> Qualifications { get; set; }
     }
 }

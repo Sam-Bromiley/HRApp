@@ -407,5 +407,16 @@ namespace HRApp
             }
 
         }
+
+        private void btnQualifications_Click(object sender, EventArgs e)
+        {
+            var id = int.Parse(lblId.Text);
+            var employee = _db.Employees.FirstOrDefault(q => q.id == id);
+            var qualifications = new Qualifications(employee);
+            qualifications.MdiParent = this.MdiParent;
+            qualifications.StartPosition = FormStartPosition.CenterScreen;
+            qualifications.Show();
+
+        }
     }
 }
