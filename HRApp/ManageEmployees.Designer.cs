@@ -29,7 +29,7 @@ namespace HRApp
         /// </summary>
         private void InitializeComponent()
         {
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
             this.lblManageEmployees = new System.Windows.Forms.Label();
             this.gvEmployeeList = new System.Windows.Forms.DataGridView();
             this.btnAddEmployee = new System.Windows.Forms.Button();
@@ -61,14 +61,15 @@ namespace HRApp
             // 
             // gvEmployeeList
             // 
-            dataGridViewCellStyle3.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
-            this.gvEmployeeList.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle3;
+            dataGridViewCellStyle1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
+            this.gvEmployeeList.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle1;
             this.gvEmployeeList.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.gvEmployeeList.Location = new System.Drawing.Point(11, 86);
             this.gvEmployeeList.Name = "gvEmployeeList";
             this.gvEmployeeList.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
             this.gvEmployeeList.Size = new System.Drawing.Size(1054, 599);
             this.gvEmployeeList.TabIndex = 1;
+            this.gvEmployeeList.MouseDoubleClick += new System.Windows.Forms.MouseEventHandler(this.gvEmployeeList_MouseDoubleClick);
             // 
             // btnAddEmployee
             // 

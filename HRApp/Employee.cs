@@ -17,6 +17,7 @@ namespace HRApp
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public Employee()
         {
+            this.Holidays = new HashSet<Holiday>();
             this.Qualifications = new HashSet<Qualification>();
         }
     
@@ -44,12 +45,17 @@ namespace HRApp
         public Nullable<System.DateTime> DateStarted { get; set; }
         public Nullable<System.DateTime> DateLeft { get; set; }
         public Nullable<bool> Leaver { get; set; }
+        public Nullable<int> TotalHolidays { get; set; }
+        public Nullable<int> HolidaysTaken { get; set; }
+        public Nullable<int> HolidaysLeft { get; set; }
     
         public virtual Department Department { get; set; }
         public virtual Gender Gender { get; set; }
         public virtual MaritalStatu MaritalStatu { get; set; }
         public virtual OfficeLocation OfficeLocation { get; set; }
         public virtual TypeOfEmployee TypeOfEmployee { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<Holiday> Holidays { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Qualification> Qualifications { get; set; }
     }

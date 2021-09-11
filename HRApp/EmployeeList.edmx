@@ -40,6 +40,9 @@
           <Property Name="DateStarted" Type="date" />
           <Property Name="DateLeft" Type="date" />
           <Property Name="Leaver" Type="bit" />
+          <Property Name="TotalHolidays" Type="int" />
+          <Property Name="HolidaysTaken" Type="int" />
+          <Property Name="HolidaysLeft" Type="int" />
         </EntityType>
         <EntityType Name="Features">
           <Key>
@@ -56,6 +59,18 @@
           </Key>
           <Property Name="gender_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="GenderName" Type="nvarchar" MaxLength="50" />
+        </EntityType>
+        <EntityType Name="Holidays">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="StartDate" Type="date" />
+          <Property Name="EndDate" Type="date" />
+          <Property Name="NumberOfDays" Type="int" />
+          <Property Name="Employee_id" Type="int" />
+          <Property Name="Notes" Type="nvarchar" MaxLength="250" />
+          <Property Name="isApproved" Type="bit" />
         </EntityType>
         <EntityType Name="MaritalStatus">
           <Key>
@@ -97,6 +112,14 @@
           </Key>
           <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="SearchType" Type="nvarchar" MaxLength="50" />
+        </EntityType>
+        <EntityType Name="Settings">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Default_Holiday" Type="int" />
+          <Property Name="Holiday_Reset" Type="date" />
         </EntityType>
         <EntityType Name="TypeOfEmployee">
           <Key>
@@ -187,6 +210,18 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_Holidays_Employees">
+          <End Role="Employees" Type="Self.Employees" Multiplicity="0..1" />
+          <End Role="Holidays" Type="Self.Holidays" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Employees">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="Holidays">
+              <PropertyRef Name="Employee_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_Qualifications_Employees">
           <End Role="Employees" Type="Self.Employees" Multiplicity="0..1" />
           <End Role="Qualifications" Type="Self.Qualifications" Multiplicity="*" />
@@ -216,11 +251,13 @@
           <EntitySet Name="Employees" EntityType="Self.Employees" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Features" EntityType="Self.Features" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Gender" EntityType="Self.Gender" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Holidays" EntityType="Self.Holidays" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="MaritalStatus" EntityType="Self.MaritalStatus" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="OfficeLocations" EntityType="Self.OfficeLocations" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Qualifications" EntityType="Self.Qualifications" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Roles" EntityType="Self.Roles" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="SearchTypes" EntityType="Self.SearchTypes" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Settings" EntityType="Self.Settings" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="TypeOfEmployee" EntityType="Self.TypeOfEmployee" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Users" EntityType="Self.Users" Schema="dbo" store:Type="Tables" />
           <AssociationSet Name="FK_Departments_Departments" Association="Self.FK_Departments_Departments">
@@ -247,6 +284,10 @@
             <End Role="TypeOfEmployee" EntitySet="TypeOfEmployee" />
             <End Role="Employees" EntitySet="Employees" />
           </AssociationSet>
+          <AssociationSet Name="FK_Holidays_Employees" Association="Self.FK_Holidays_Employees">
+            <End Role="Employees" EntitySet="Employees" />
+            <End Role="Holidays" EntitySet="Holidays" />
+          </AssociationSet>
           <AssociationSet Name="FK_Qualifications_Employees" Association="Self.FK_Qualifications_Employees">
             <End Role="Employees" EntitySet="Employees" />
             <End Role="Qualifications" EntitySet="Qualifications" />
@@ -265,11 +306,13 @@
           <EntitySet Name="Employees" EntityType="HRAppModel.Employee" />
           <EntitySet Name="Features" EntityType="HRAppModel.Feature" />
           <EntitySet Name="Genders" EntityType="HRAppModel.Gender" />
+          <EntitySet Name="Holidays" EntityType="HRAppModel.Holiday" />
           <EntitySet Name="MaritalStatus" EntityType="HRAppModel.MaritalStatu" />
           <EntitySet Name="OfficeLocations" EntityType="HRAppModel.OfficeLocation" />
           <EntitySet Name="Qualifications" EntityType="HRAppModel.Qualification" />
           <EntitySet Name="Roles" EntityType="HRAppModel.Role" />
           <EntitySet Name="SearchTypes" EntityType="HRAppModel.SearchType" />
+          <EntitySet Name="Settings" EntityType="HRAppModel.Setting" />
           <EntitySet Name="TypeOfEmployees" EntityType="HRAppModel.TypeOfEmployee" />
           <EntitySet Name="Users" EntityType="HRAppModel.User" />
           <AssociationSet Name="FK_Departments_Departments" Association="HRAppModel.FK_Departments_Departments">
@@ -295,6 +338,10 @@
           <AssociationSet Name="FK_Employees_TypeOfEmployee" Association="HRAppModel.FK_Employees_TypeOfEmployee">
             <End Role="TypeOfEmployee" EntitySet="TypeOfEmployees" />
             <End Role="Employee" EntitySet="Employees" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Holidays_Employees" Association="HRAppModel.FK_Holidays_Employees">
+            <End Role="Employee" EntitySet="Employees" />
+            <End Role="Holiday" EntitySet="Holidays" />
           </AssociationSet>
           <AssociationSet Name="FK_Qualifications_Employees" Association="HRAppModel.FK_Qualifications_Employees">
             <End Role="Employee" EntitySet="Employees" />
@@ -343,11 +390,15 @@
           <Property Name="DateStarted" Type="DateTime" Precision="0" />
           <Property Name="DateLeft" Type="DateTime" Precision="0" />
           <Property Name="Leaver" Type="Boolean" />
+          <Property Name="TotalHolidays" Type="Int32" />
+          <Property Name="HolidaysTaken" Type="Int32" />
+          <Property Name="HolidaysLeft" Type="Int32" />
           <NavigationProperty Name="Department" Relationship="HRAppModel.FK_Employees_Departments" FromRole="Employee" ToRole="Department" />
           <NavigationProperty Name="Gender" Relationship="HRAppModel.FK_Employees_Gender" FromRole="Employee" ToRole="Gender" />
           <NavigationProperty Name="MaritalStatu" Relationship="HRAppModel.FK_Employees_MaritalStatus" FromRole="Employee" ToRole="MaritalStatu" />
           <NavigationProperty Name="OfficeLocation" Relationship="HRAppModel.FK_Employees_OfficeLocations" FromRole="Employee" ToRole="OfficeLocation" />
           <NavigationProperty Name="TypeOfEmployee" Relationship="HRAppModel.FK_Employees_TypeOfEmployee" FromRole="Employee" ToRole="TypeOfEmployee" />
+          <NavigationProperty Name="Holidays" Relationship="HRAppModel.FK_Holidays_Employees" FromRole="Employee" ToRole="Holiday" />
           <NavigationProperty Name="Qualifications" Relationship="HRAppModel.FK_Qualifications_Employees" FromRole="Employee" ToRole="Qualification" />
         </EntityType>
         <EntityType Name="Feature">
@@ -366,6 +417,19 @@
           <Property Name="gender_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="GenderName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <NavigationProperty Name="Employees" Relationship="HRAppModel.FK_Employees_Gender" FromRole="Gender" ToRole="Employee" />
+        </EntityType>
+        <EntityType Name="Holiday">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="StartDate" Type="DateTime" Precision="0" />
+          <Property Name="EndDate" Type="DateTime" Precision="0" />
+          <Property Name="NumberOfDays" Type="Int32" />
+          <Property Name="Employee_id" Type="Int32" />
+          <NavigationProperty Name="Employee" Relationship="HRAppModel.FK_Holidays_Employees" FromRole="Holiday" ToRole="Employee" />
+          <Property Name="Notes" Type="String" MaxLength="250" FixedLength="false" Unicode="true" />
+          <Property Name="isApproved" Type="Boolean" />
         </EntityType>
         <EntityType Name="MaritalStatu">
           <Key>
@@ -411,6 +475,14 @@
           </Key>
           <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="SearchType1" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+        </EntityType>
+        <EntityType Name="Setting">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Default_Holiday" Type="Int32" />
+          <Property Name="Holiday_Reset" Type="DateTime" Precision="0" />
         </EntityType>
         <EntityType Name="TypeOfEmployee">
           <Key>
@@ -503,6 +575,18 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_Holidays_Employees">
+          <End Type="HRAppModel.Employee" Role="Employee" Multiplicity="0..1" />
+          <End Type="HRAppModel.Holiday" Role="Holiday" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Employee">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="Holiday">
+              <PropertyRef Name="Employee_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_Qualifications_Employees">
           <End Type="HRAppModel.Employee" Role="Employee" Multiplicity="0..1" />
           <End Type="HRAppModel.Qualification" Role="Qualification" Multiplicity="*" />
@@ -544,6 +628,9 @@
           <EntitySetMapping Name="Employees">
             <EntityTypeMapping TypeName="HRAppModel.Employee">
               <MappingFragment StoreEntitySet="Employees">
+                <ScalarProperty Name="HolidaysLeft" ColumnName="HolidaysLeft" />
+                <ScalarProperty Name="HolidaysTaken" ColumnName="HolidaysTaken" />
+                <ScalarProperty Name="TotalHolidays" ColumnName="TotalHolidays" />
                 <ScalarProperty Name="Leaver" ColumnName="Leaver" />
                 <ScalarProperty Name="DateLeft" ColumnName="DateLeft" />
                 <ScalarProperty Name="DateStarted" ColumnName="DateStarted" />
@@ -589,6 +676,19 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
+          <EntitySetMapping Name="Holidays">
+            <EntityTypeMapping TypeName="HRAppModel.Holiday">
+              <MappingFragment StoreEntitySet="Holidays">
+                <ScalarProperty Name="isApproved" ColumnName="isApproved" />
+                <ScalarProperty Name="Notes" ColumnName="Notes" />
+                <ScalarProperty Name="Employee_id" ColumnName="Employee_id" />
+                <ScalarProperty Name="NumberOfDays" ColumnName="NumberOfDays" />
+                <ScalarProperty Name="EndDate" ColumnName="EndDate" />
+                <ScalarProperty Name="StartDate" ColumnName="StartDate" />
+                <ScalarProperty Name="id" ColumnName="id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
           <EntitySetMapping Name="MaritalStatus">
             <EntityTypeMapping TypeName="HRAppModel.MaritalStatu">
               <MappingFragment StoreEntitySet="MaritalStatus">
@@ -631,6 +731,15 @@
             <EntityTypeMapping TypeName="HRAppModel.SearchType">
               <MappingFragment StoreEntitySet="SearchTypes">
                 <ScalarProperty Name="SearchType1" ColumnName="SearchType" />
+                <ScalarProperty Name="id" ColumnName="id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Settings">
+            <EntityTypeMapping TypeName="HRAppModel.Setting">
+              <MappingFragment StoreEntitySet="Settings">
+                <ScalarProperty Name="Holiday_Reset" ColumnName="Holiday_Reset" />
+                <ScalarProperty Name="Default_Holiday" ColumnName="Default_Holiday" />
                 <ScalarProperty Name="id" ColumnName="id" />
               </MappingFragment>
             </EntityTypeMapping>

@@ -175,6 +175,9 @@
     <Compile Include="Gender.cs">
       <DependentUpon>EmployeeList.tt</DependentUpon>
     </Compile>
+    <Compile Include="Holiday.cs">
+      <DependentUpon>EmployeeList.tt</DependentUpon>
+    </Compile>
     <Compile Include="Login.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -221,6 +224,9 @@
     </Compile>
     <Compile Include="Qualifications.Designer.cs">
       <DependentUpon>Qualifications.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Setting.cs">
+      <DependentUpon>EmployeeList.tt</DependentUpon>
     </Compile>
     <Compile Include="TypeOfEmployee.cs">
       <DependentUpon>EmployeeList.tt</DependentUpon>

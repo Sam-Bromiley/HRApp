@@ -74,13 +74,7 @@ namespace HRApp
         }
         private void btnEditEmployee_Click(object sender, EventArgs e)
         {
-            var id = (int)gvEmployeeList.SelectedRows[0].Cells["id"].Value;
-            var employee = _db.Employees.FirstOrDefault(q => q.id == id);
-            var editEmployee = new EditEmployee(employee, _user, this);
-
-            editEmployee.StartPosition = FormStartPosition.CenterScreen;
-            editEmployee.MdiParent = this.MdiParent;
-            editEmployee.Show();
+            SelectEditEmployee();
         }
 
         private void btnCancel_Click(object sender, EventArgs e)
@@ -101,7 +95,8 @@ namespace HRApp
                    q.NationalInsuranceNo,
                    Department = q.Department.DepartmentName,
                    OfficeLocation = q.OfficeLocation.OfficeLocation1,
-                   q.ExtensionNumber
+                   q.ExtensionNumber,
+                   q.HolidaysLeft
                })
                .ToList();
             gvEmployeeList.DataSource = employees;
@@ -126,7 +121,8 @@ namespace HRApp
                 q.NationalInsuranceNo,
                 Department = q.Department.DepartmentName,
                 OfficeLocation = q.OfficeLocation.OfficeLocation1,
-                q.ExtensionNumber
+                q.ExtensionNumber,
+                q.HolidaysLeft
             })
                .ToList();
             gvEmployeeList.DataSource = employees;
@@ -167,7 +163,8 @@ namespace HRApp
                    q.NationalInsuranceNo,
                    Department = q.Department.DepartmentName,
                    OfficeLocation = q.OfficeLocation.OfficeLocation1,
-                   q.ExtensionNumber
+                   q.ExtensionNumber,
+                   q.HolidaysLeft
                })
                .ToList();
             gvEmployeeList.DataSource = employees;
@@ -210,6 +207,10 @@ namespace HRApp
         private void btnClearSearch_Click(object sender, EventArgs e)
         {
             PopulateEmployees();
+            cbDepartmentFilter.SelectedItem = null;
+            cbDepartmentFilter.Text = "--Select--";
+            cbLocationFilter.SelectedItem = null;
+            cbLocationFilter.Text = "--Select--";
         }
 
         private void cbDepartmentFilter_SelectedIndexChanged(object sender, EventArgs e)
@@ -227,6 +228,34 @@ namespace HRApp
             cbDepartmentFilter.SelectedItem = null;
             cbDepartmentFilter.Text = "--Select--";
             PopulateEmployees(departmentId);
+        }
+
+        private void gvEmployeeList_MouseDoubleClick(object sender, MouseEventArgs e)
+        {
+            try
+            {
+                SelectEditEmployee();
+            }
+            catch (Exception ex)
+            {
+
+                MessageBox.Show($"Error: {ex.Message}");
+            }
+
+
+
+            
+        }
+
+        private void SelectEditEmployee()
+        {
+            var id = (int)gvEmployeeList.SelectedRows[0].Cells["id"].Value;
+            var employee = _db.Employees.FirstOrDefault(q => q.id == id);
+            var editEmployee = new EditEmployee(employee, _user, this);
+
+            editEmployee.StartPosition = FormStartPosition.CenterScreen;
+            editEmployee.MdiParent = this.MdiParent;
+            editEmployee.Show();
         }
     }
 }

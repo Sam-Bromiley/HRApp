@@ -50,7 +50,7 @@ namespace HRApp
             {
                 var id = (int)gvUsers.SelectedRows[0].Cells["id"].Value;
                 var user = _db.Users.FirstOrDefault(q => q.id == id);
-
+                
                 if ((bool)user.isActive)
                 {
                     user.isActive = false;

@@ -5,23 +5,26 @@
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
       <Diagram DiagramId="977305ab40d54ada9d6fb637988b3687" Name="Diagram1">
-        <EntityTypeShape EntityType="HRAppModel.Department" Width="1.5" PointX="0.75" PointY="14" />
-        <EntityTypeShape EntityType="HRAppModel.Employee" Width="1.5" PointX="3" PointY="1.125" />
-        <EntityTypeShape EntityType="HRAppModel.Feature" Width="1.5" PointX="5.75" PointY="0.75" />
-        <EntityTypeShape EntityType="HRAppModel.Gender" Width="1.5" PointX="0.75" PointY="6.875" />
-        <EntityTypeShape EntityType="HRAppModel.MaritalStatu" Width="1.5" PointX="0.75" PointY="9.25" />
-        <EntityTypeShape EntityType="HRAppModel.OfficeLocation" Width="1.5" PointX="0.75" PointY="11.625" />
-        <EntityTypeShape EntityType="HRAppModel.Qualification" Width="1.5" PointX="5.25" PointY="3.375" />
-        <EntityTypeShape EntityType="HRAppModel.Role" Width="1.5" PointX="5.75" PointY="7" />
-        <EntityTypeShape EntityType="HRAppModel.SearchType" Width="1.5" PointX="7.75" PointY="0.75" />
-        <EntityTypeShape EntityType="HRAppModel.TypeOfEmployee" Width="1.5" PointX="0.75" PointY="3.75" />
-        <EntityTypeShape EntityType="HRAppModel.User" Width="1.5" PointX="8" PointY="6.875" />
+        <EntityTypeShape EntityType="HRAppModel.Department" Width="1.5" PointX="0.75" PointY="12" />
+        <EntityTypeShape EntityType="HRAppModel.Employee" Width="1.5" PointX="3" PointY="1.25" />
+        <EntityTypeShape EntityType="HRAppModel.Feature" Width="1.5" PointX="7.75" PointY="4.75" />
+        <EntityTypeShape EntityType="HRAppModel.Gender" Width="1.5" PointX="0.75" PointY="9.625" />
+        <EntityTypeShape EntityType="HRAppModel.Holiday" Width="1.5" PointX="5.25" PointY="5.5" />
+        <EntityTypeShape EntityType="HRAppModel.MaritalStatu" Width="1.5" PointX="0.75" PointY="14.75" />
+        <EntityTypeShape EntityType="HRAppModel.OfficeLocation" Width="1.5" PointX="0.75" PointY="4.125" />
+        <EntityTypeShape EntityType="HRAppModel.Qualification" Width="1.5" PointX="5.25" PointY="2.375" />
+        <EntityTypeShape EntityType="HRAppModel.Role" Width="1.5" PointX="7.75" PointY="1" />
+        <EntityTypeShape EntityType="HRAppModel.SearchType" Width="1.5" PointX="7.75" PointY="7.75" />
+        <EntityTypeShape EntityType="HRAppModel.Setting" Width="1.5" PointX="2.75" PointY="9.75" />
+        <EntityTypeShape EntityType="HRAppModel.TypeOfEmployee" Width="1.5" PointX="0.75" PointY="7.375" />
+        <EntityTypeShape EntityType="HRAppModel.User" Width="1.5" PointX="10" PointY="0.875" />
         <AssociationConnector Association="HRAppModel.FK_Departments_Departments" />
         <AssociationConnector Association="HRAppModel.FK_Employees_Departments" />
         <AssociationConnector Association="HRAppModel.FK_Employees_Gender" />
         <AssociationConnector Association="HRAppModel.FK_Employees_MaritalStatus" />
         <AssociationConnector Association="HRAppModel.FK_Employees_OfficeLocations" />
         <AssociationConnector Association="HRAppModel.FK_Employees_TypeOfEmployee" />
+        <AssociationConnector Association="HRAppModel.FK_Holidays_Employees" />
         <AssociationConnector Association="HRAppModel.FK_Qualifications_Employees" />
         <AssociationConnector Association="HRAppModel.FK_Users_Roles" />
       </Diagram>

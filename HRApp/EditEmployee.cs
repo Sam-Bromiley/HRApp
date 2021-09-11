@@ -17,6 +17,7 @@ namespace HRApp
         private ManageEmployees _manageEmployees;
         private bool isEditMode;
         private User _user;
+        public bool isValid = true;
         public EditEmployee(User user, ManageEmployees manageEmployees = null)
         {
             InitializeComponent();
@@ -30,6 +31,10 @@ namespace HRApp
             dtDateStarted.Value = DateTime.Today;
             dtDateLeft.Value = DateTime.Today;
             _user = user;
+            tbTotalHolidays.Text = 26.ToString();
+            tbHolidaysTaken.Text = "0";
+            tbHolidaysLeft.Text = 26.ToString();
+            
         }
 
         public EditEmployee(Employee employeeToEdit, User user, ManageEmployees manageEmployees = null)
@@ -66,9 +71,35 @@ namespace HRApp
             tbExtensionNumber.Text = employeeToEdit.ExtensionNumber.ToString();
             cbDepartment.SelectedValue = employeeToEdit.DepartmentId;
             cbOfficeLocation.SelectedValue = employeeToEdit.OfficeLocationId;
+            tbTotalHolidays.Text = employeeToEdit.TotalHolidays.ToString();
+            tbHolidaysTaken.Text = employeeToEdit.HolidaysTaken.ToString();
+            tbHolidaysLeft.Text = employeeToEdit.HolidaysLeft.ToString();
+            
+            PopulateHolidays();
 
 
+        }
 
+        private void PopulateHolidays()
+        {
+            var id = int.Parse(lblId.Text);
+            var holidayList = _db.Holidays
+                .Where(q => q.Employee_id == id)
+                .Select(q => new
+                {
+                    ID = q.id,
+                    q.NumberOfDays,
+                    q.StartDate,
+                    q.EndDate,
+                    q.isApproved,
+                    q.Notes
+                }).ToList();
+            gvEmployeeHolidays.DataSource = holidayList;
+            gvEmployeeHolidays.Columns["id"].Visible = false;
+            gvEmployeeHolidays.Columns["NumberOfDays"].HeaderText = "Number Of Days";
+            gvEmployeeHolidays.Columns["isApproved"].HeaderText = "Approved";
+            gvEmployeeHolidays.Columns["StartDate"].HeaderText = "Start Date";
+            gvEmployeeHolidays.Columns["EndDate"].HeaderText = "End Date";
         }
 
         private void EditEmployee_Load(object sender, EventArgs e)
@@ -145,6 +176,9 @@ namespace HRApp
                 cbTypeOfEmployee.Enabled = false;
                 btnSave.Visible = false;
                 btnCancel.Text = "OK";
+                tbTotalHolidays.Enabled = false;
+                tbHolidaysTaken.Enabled = false;
+                tbHolidaysLeft.Enabled = false;
             }
         }
 
@@ -189,6 +223,9 @@ namespace HRApp
                     addEditEmployee.Salary = (decimal)editSalary;
                     addEditEmployee.ExtensionNumber = int.Parse(tbExtensionNumber.Text);
                     addEditEmployee.Leaver = chkLeaver.Checked;
+                    addEditEmployee.TotalHolidays = int.Parse(tbTotalHolidays.Text);
+                    addEditEmployee.HolidaysTaken = int.Parse(tbHolidaysTaken.Text);
+                    addEditEmployee.HolidaysLeft = int.Parse(tbHolidaysLeft.Text);
 
                     _db.SaveChanges();
                     _manageEmployees.PopulateEmployees();
@@ -197,7 +234,7 @@ namespace HRApp
                 else
                 {
                     
-                    bool isValid = true;
+                    
                     string ErrorMessage = "Please ensure you have filled out the following fields: \n\r";
                     //Add code
                     string MiddleName = "";
@@ -270,6 +307,12 @@ namespace HRApp
                         isValid = false;
                         ErrorMessage += "National Insurance Number";
                     }
+                    if(int.Parse(tbHolidaysLeft.Text) < 0)
+                    {
+                        isValid = false;
+                        MessageBox.Show("Employee cannot take more holidays than their allowance \n\r" +
+                        "Please correct this before saving");
+                    }
                     if (isValid)
                     {
                         var addEditEmployee = new Employee
@@ -296,7 +339,12 @@ namespace HRApp
                             JobTitle = JobTitle,
                             Salary = Salary,
                             ExtensionNumber = Extension,
-                            Leaver = chkLeaver.Checked
+                            Leaver = chkLeaver.Checked,
+                            TotalHolidays = int.Parse(tbTotalHolidays.Text),
+                            HolidaysTaken = int.Parse(tbHolidaysTaken.Text),
+                            HolidaysLeft = int.Parse(tbHolidaysLeft.Text)
+
+                            
 
                         };
 
@@ -417,6 +465,114 @@ namespace HRApp
             qualifications.StartPosition = FormStartPosition.CenterScreen;
             qualifications.Show();
 
+        }
+        private void CalculateHolidays()
+        {
+            try
+            {
+                var holidaysTaken = 0;
+                if(tbHolidaysTaken.Text != "0" && tbHolidaysTaken.Text != "")
+                {
+                     holidaysTaken = int.Parse(tbHolidaysTaken.Text);
+                } 
+                else
+                {
+                    holidaysTaken = 0;
+                }
+                var holidaysLeft = int.Parse(tbTotalHolidays.Text) - holidaysTaken;
+                if(holidaysLeft < 0)
+                {
+                    MessageBox.Show("Employee cannot take more holidays than their allowance \n\r" +
+                        "Please correct this before saving");
+                   
+                }
+                tbHolidaysLeft.Text = holidaysLeft.ToString();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Error: {ex.Message}");
+            }
+            
+        }
+
+       
+
+        private void tbTotalHolidays_Leave(object sender, EventArgs e)
+        {
+            CalculateHolidays();
+        }
+
+        private void tbHolidaysTaken_Leave(object sender, EventArgs e)
+        {
+            CalculateHolidays();
+        }
+
+        private void btnSubmitHoliday_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                DateTime holStart = Convert.ToDateTime(dtHolidayStart.Value);
+                DateTime holEnd = Convert.ToDateTime(dtHolidayEnd.Value);
+                if(!isEditMode)
+                {
+                    MessageBox.Show("Please save the employees record before adding holidays");
+                }
+                else if (holStart > holEnd)
+                {
+                    MessageBox.Show("Please enter valid dates");
+                }
+                else
+                {
+                    DialogResult dr = MessageBox.Show($"Are you sure you want to add add holidaye for {tbForename.Text} {tbSurname.Text} for the following dates: \n\r" +
+                        $"Start Date: {dtHolidayStart.Value}\n\r" +
+                        $"End Date: {dtHolidayEnd.Value}", "Add Holiday", MessageBoxButtons.YesNoCancel, MessageBoxIcon.Question);
+                    if (dr == DialogResult.Yes)
+                    {
+                        var newHolidayRequest = new Holiday
+                        {
+                            Employee_id = int.Parse(lblId.Text),
+                            StartDate = dtHolidayStart.Value,
+                            EndDate = dtHolidayEnd.Value,
+                            NumberOfDays = holEnd.Subtract(holStart).Days,
+                            Notes = tbNotes.Text,
+                            isApproved = chApproved.Checked
+                        };
+                        _db.Holidays.Add(newHolidayRequest);
+                        _db.SaveChanges();
+
+                    }
+                }
+
+                PopulateHolidays();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Error: {ex.Message}");
+            }
+            
+
+
+        }
+
+       
+        private void btnEditHoliday_Click(object sender, EventArgs e)
+        {
+            
+        }
+
+        private void btnDeleteHoliday_Click(object sender, EventArgs e)
+        {
+            var id = (int)gvEmployeeHolidays.SelectedRows[0].Cells["id"].Value;
+            var holiday = _db.Holidays.FirstOrDefault(q => q.id == id);
+            DialogResult dr = MessageBox.Show($"Are you sure you want delete the holiday entry for {tbForename.Text} {tbSurname.Text} for the following dates: \n\r" +
+                        $"Start Date: {holiday.StartDate}\n\r" +
+                        $"End Date: {holiday.EndDate}", "Delete", MessageBoxButtons.YesNoCancel, MessageBoxIcon.Warning);
+            if (dr == DialogResult.Yes)
+            {
+                _db.Holidays.Remove(holiday);
+                _db.SaveChanges();
+                PopulateHolidays();
+            }
         }
     }
 }
