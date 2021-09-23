@@ -205,18 +205,18 @@
     <Compile Include="MaritalStatu.cs">
       <DependentUpon>EmployeeList.tt</DependentUpon>
     </Compile>
+    <Compile Include="NILetter.cs">
+      <DependentUpon>EmployeeList.tt</DependentUpon>
+    </Compile>
     <Compile Include="OfficeLocation.cs">
+      <DependentUpon>EmployeeList.tt</DependentUpon>
+    </Compile>
+    <Compile Include="PayFrequency.cs">
       <DependentUpon>EmployeeList.tt</DependentUpon>
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Qualification.cs">
-      <DependentUpon>EmployeeList.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Role.cs">
-      <DependentUpon>EmployeeList.tt</DependentUpon>
-    </Compile>
-    <Compile Include="SearchType.cs">
       <DependentUpon>EmployeeList.tt</DependentUpon>
     </Compile>
     <Compile Include="Qualifications.cs">
@@ -225,7 +225,16 @@
     <Compile Include="Qualifications.Designer.cs">
       <DependentUpon>Qualifications.cs</DependentUpon>
     </Compile>
+    <Compile Include="Role.cs">
+      <DependentUpon>EmployeeList.tt</DependentUpon>
+    </Compile>
+    <Compile Include="SearchType.cs">
+      <DependentUpon>EmployeeList.tt</DependentUpon>
+    </Compile>
     <Compile Include="Setting.cs">
+      <DependentUpon>EmployeeList.tt</DependentUpon>
+    </Compile>
+    <Compile Include="StudentLoan.cs">
       <DependentUpon>EmployeeList.tt</DependentUpon>
     </Compile>
     <Compile Include="TypeOfEmployee.cs">

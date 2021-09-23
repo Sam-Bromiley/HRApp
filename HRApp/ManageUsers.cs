@@ -23,6 +23,7 @@ namespace HRApp
             PopulateUsers();
         }
 
+        //show list of users
         public void PopulateUsers()
         {
             var users = _db.Users.Select(q => new
@@ -44,6 +45,7 @@ namespace HRApp
             Close();
         }
 
+        //change active status of a user
         private void btnActivate_Click(object sender, EventArgs e)
         {
             try
@@ -69,6 +71,7 @@ namespace HRApp
             
         }
 
+        //open add new user screen
         private void btnAddUser_Click(object sender, EventArgs e)
         {
             var addUser = new AddUser(this);

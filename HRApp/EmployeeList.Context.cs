@@ -31,11 +31,14 @@ namespace HRApp
         public virtual DbSet<Gender> Genders { get; set; }
         public virtual DbSet<Holiday> Holidays { get; set; }
         public virtual DbSet<MaritalStatu> MaritalStatus { get; set; }
+        public virtual DbSet<NILetter> NILetters { get; set; }
         public virtual DbSet<OfficeLocation> OfficeLocations { get; set; }
+        public virtual DbSet<PayFrequency> PayFrequencies { get; set; }
         public virtual DbSet<Qualification> Qualifications { get; set; }
         public virtual DbSet<Role> Roles { get; set; }
         public virtual DbSet<SearchType> SearchTypes { get; set; }
         public virtual DbSet<Setting> Settings { get; set; }
+        public virtual DbSet<StudentLoan> StudentLoans { get; set; }
         public virtual DbSet<TypeOfEmployee> TypeOfEmployees { get; set; }
         public virtual DbSet<User> Users { get; set; }
     }

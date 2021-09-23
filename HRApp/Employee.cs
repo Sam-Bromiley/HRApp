@@ -48,10 +48,22 @@ namespace HRApp
         public Nullable<int> TotalHolidays { get; set; }
         public Nullable<int> HolidaysTaken { get; set; }
         public Nullable<int> HolidaysLeft { get; set; }
+        public string TaxCode { get; set; }
+        public Nullable<bool> TaxBasisW1 { get; set; }
+        public Nullable<int> NILetterId { get; set; }
+        public Nullable<int> StudentLoanId { get; set; }
+        public Nullable<bool> PostGradLoan { get; set; }
+        public Nullable<double> AnnualSalary { get; set; }
+        public Nullable<double> PeriodSalary { get; set; }
+        public Nullable<int> Frequency_id { get; set; }
+        public Nullable<double> HourlyRate { get; set; }
+        public Nullable<double> HoursPerPeriod { get; set; }
+        public Nullable<bool> PayBasis { get; set; }
     
         public virtual Department Department { get; set; }
         public virtual Gender Gender { get; set; }
         public virtual MaritalStatu MaritalStatu { get; set; }
+        public virtual NILetter NILetter { get; set; }
         public virtual OfficeLocation OfficeLocation { get; set; }
         public virtual TypeOfEmployee TypeOfEmployee { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]

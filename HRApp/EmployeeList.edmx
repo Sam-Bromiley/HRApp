@@ -43,6 +43,17 @@
           <Property Name="TotalHolidays" Type="int" />
           <Property Name="HolidaysTaken" Type="int" />
           <Property Name="HolidaysLeft" Type="int" />
+          <Property Name="TaxCode" Type="nvarchar" MaxLength="10" />
+          <Property Name="TaxBasisW1" Type="bit" />
+          <Property Name="NILetterId" Type="int" />
+          <Property Name="StudentLoanId" Type="int" />
+          <Property Name="PostGradLoan" Type="bit" />
+          <Property Name="AnnualSalary" Type="float" />
+          <Property Name="PeriodSalary" Type="float" />
+          <Property Name="Frequency_id" Type="int" />
+          <Property Name="HourlyRate" Type="float" />
+          <Property Name="HoursPerPeriod" Type="float" />
+          <Property Name="PayBasis" Type="bit" />
         </EntityType>
         <EntityType Name="Features">
           <Key>
@@ -79,12 +90,29 @@
           <Property Name="MaritalStatus_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="MaritalStatus" Type="nvarchar" MaxLength="50" />
         </EntityType>
+        <EntityType Name="NILetters">
+          <Key>
+            <PropertyRef Name="Ni_Id" />
+          </Key>
+          <Property Name="Ni_Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="NiLetter" Type="nvarchar" MaxLength="1" Nullable="false" />
+          <Property Name="Description" Type="nvarchar" MaxLength="100" />
+        </EntityType>
         <EntityType Name="OfficeLocations">
           <Key>
             <PropertyRef Name="office_id" />
           </Key>
           <Property Name="office_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="OfficeLocation" Type="nvarchar" MaxLength="50" />
+        </EntityType>
+        <EntityType Name="PayFrequencies">
+          <Key>
+            <PropertyRef Name="Frequency_id" />
+          </Key>
+          <Property Name="Frequency_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="PayFrequency" Type="nvarchar" MaxLength="20" />
+          <Property Name="NumberOfPeriods" Type="int" />
+          <Property Name="Period_id" Type="int" />
         </EntityType>
         <EntityType Name="Qualifications">
           <Key>
@@ -120,6 +148,15 @@
           <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="Default_Holiday" Type="int" />
           <Property Name="Holiday_Reset" Type="date" />
+        </EntityType>
+        <EntityType Name="StudentLoan">
+          <Key>
+            <PropertyRef Name="Sloan_Id" />
+          </Key>
+          <Property Name="Sloan_Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="PlanType" Type="nvarchar" MaxLength="12" />
+          <Property Name="AnnualThreshold" Type="int" />
+          <Property Name="PercentDeduction" Type="decimal" Precision="4" Scale="0" />
         </EntityType>
         <EntityType Name="TypeOfEmployee">
           <Key>
@@ -183,6 +220,18 @@
             </Principal>
             <Dependent Role="Employees">
               <PropertyRef Name="MaritalStatusId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Employees_NILetters">
+          <End Role="NILetters" Type="Self.NILetters" Multiplicity="0..1" />
+          <End Role="Employees" Type="Self.Employees" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="NILetters">
+              <PropertyRef Name="Ni_Id" />
+            </Principal>
+            <Dependent Role="Employees">
+              <PropertyRef Name="NILetterId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -253,11 +302,14 @@
           <EntitySet Name="Gender" EntityType="Self.Gender" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Holidays" EntityType="Self.Holidays" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="MaritalStatus" EntityType="Self.MaritalStatus" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="NILetters" EntityType="Self.NILetters" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="OfficeLocations" EntityType="Self.OfficeLocations" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="PayFrequencies" EntityType="Self.PayFrequencies" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Qualifications" EntityType="Self.Qualifications" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Roles" EntityType="Self.Roles" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="SearchTypes" EntityType="Self.SearchTypes" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Settings" EntityType="Self.Settings" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="StudentLoan" EntityType="Self.StudentLoan" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="TypeOfEmployee" EntityType="Self.TypeOfEmployee" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Users" EntityType="Self.Users" Schema="dbo" store:Type="Tables" />
           <AssociationSet Name="FK_Departments_Departments" Association="Self.FK_Departments_Departments">
@@ -274,6 +326,10 @@
           </AssociationSet>
           <AssociationSet Name="FK_Employees_MaritalStatus" Association="Self.FK_Employees_MaritalStatus">
             <End Role="MaritalStatus" EntitySet="MaritalStatus" />
+            <End Role="Employees" EntitySet="Employees" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Employees_NILetters" Association="Self.FK_Employees_NILetters">
+            <End Role="NILetters" EntitySet="NILetters" />
             <End Role="Employees" EntitySet="Employees" />
           </AssociationSet>
           <AssociationSet Name="FK_Employees_OfficeLocations" Association="Self.FK_Employees_OfficeLocations">
@@ -308,11 +364,14 @@
           <EntitySet Name="Genders" EntityType="HRAppModel.Gender" />
           <EntitySet Name="Holidays" EntityType="HRAppModel.Holiday" />
           <EntitySet Name="MaritalStatus" EntityType="HRAppModel.MaritalStatu" />
+          <EntitySet Name="NILetters" EntityType="HRAppModel.NILetter" />
           <EntitySet Name="OfficeLocations" EntityType="HRAppModel.OfficeLocation" />
+          <EntitySet Name="PayFrequencies" EntityType="HRAppModel.PayFrequency" />
           <EntitySet Name="Qualifications" EntityType="HRAppModel.Qualification" />
           <EntitySet Name="Roles" EntityType="HRAppModel.Role" />
           <EntitySet Name="SearchTypes" EntityType="HRAppModel.SearchType" />
           <EntitySet Name="Settings" EntityType="HRAppModel.Setting" />
+          <EntitySet Name="StudentLoans" EntityType="HRAppModel.StudentLoan" />
           <EntitySet Name="TypeOfEmployees" EntityType="HRAppModel.TypeOfEmployee" />
           <EntitySet Name="Users" EntityType="HRAppModel.User" />
           <AssociationSet Name="FK_Departments_Departments" Association="HRAppModel.FK_Departments_Departments">
@@ -329,6 +388,10 @@
           </AssociationSet>
           <AssociationSet Name="FK_Employees_MaritalStatus" Association="HRAppModel.FK_Employees_MaritalStatus">
             <End Role="MaritalStatu" EntitySet="MaritalStatus" />
+            <End Role="Employee" EntitySet="Employees" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Employees_NILetters" Association="HRAppModel.FK_Employees_NILetters">
+            <End Role="NILetter" EntitySet="NILetters" />
             <End Role="Employee" EntitySet="Employees" />
           </AssociationSet>
           <AssociationSet Name="FK_Employees_OfficeLocations" Association="HRAppModel.FK_Employees_OfficeLocations">
@@ -393,9 +456,21 @@
           <Property Name="TotalHolidays" Type="Int32" />
           <Property Name="HolidaysTaken" Type="Int32" />
           <Property Name="HolidaysLeft" Type="Int32" />
+          <Property Name="TaxCode" Type="String" MaxLength="10" FixedLength="false" Unicode="true" />
+          <Property Name="TaxBasisW1" Type="Boolean" />
+          <Property Name="NILetterId" Type="Int32" />
+          <Property Name="StudentLoanId" Type="Int32" />
+          <Property Name="PostGradLoan" Type="Boolean" />
+          <Property Name="AnnualSalary" Type="Double" />
+          <Property Name="PeriodSalary" Type="Double" />
+          <Property Name="Frequency_id" Type="Int32" />
+          <Property Name="HourlyRate" Type="Double" />
+          <Property Name="HoursPerPeriod" Type="Double" />
+          <Property Name="PayBasis" Type="Boolean" />
           <NavigationProperty Name="Department" Relationship="HRAppModel.FK_Employees_Departments" FromRole="Employee" ToRole="Department" />
           <NavigationProperty Name="Gender" Relationship="HRAppModel.FK_Employees_Gender" FromRole="Employee" ToRole="Gender" />
           <NavigationProperty Name="MaritalStatu" Relationship="HRAppModel.FK_Employees_MaritalStatus" FromRole="Employee" ToRole="MaritalStatu" />
+          <NavigationProperty Name="NILetter" Relationship="HRAppModel.FK_Employees_NILetters" FromRole="Employee" ToRole="NILetter" />
           <NavigationProperty Name="OfficeLocation" Relationship="HRAppModel.FK_Employees_OfficeLocations" FromRole="Employee" ToRole="OfficeLocation" />
           <NavigationProperty Name="TypeOfEmployee" Relationship="HRAppModel.FK_Employees_TypeOfEmployee" FromRole="Employee" ToRole="TypeOfEmployee" />
           <NavigationProperty Name="Holidays" Relationship="HRAppModel.FK_Holidays_Employees" FromRole="Employee" ToRole="Holiday" />
@@ -427,9 +502,9 @@
           <Property Name="EndDate" Type="DateTime" Precision="0" />
           <Property Name="NumberOfDays" Type="Int32" />
           <Property Name="Employee_id" Type="Int32" />
-          <NavigationProperty Name="Employee" Relationship="HRAppModel.FK_Holidays_Employees" FromRole="Holiday" ToRole="Employee" />
           <Property Name="Notes" Type="String" MaxLength="250" FixedLength="false" Unicode="true" />
           <Property Name="isApproved" Type="Boolean" />
+          <NavigationProperty Name="Employee" Relationship="HRAppModel.FK_Holidays_Employees" FromRole="Holiday" ToRole="Employee" />
         </EntityType>
         <EntityType Name="MaritalStatu">
           <Key>
@@ -439,6 +514,15 @@
           <Property Name="MaritalStatus" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <NavigationProperty Name="Employees" Relationship="HRAppModel.FK_Employees_MaritalStatus" FromRole="MaritalStatu" ToRole="Employee" />
         </EntityType>
+        <EntityType Name="NILetter">
+          <Key>
+            <PropertyRef Name="Ni_Id" />
+          </Key>
+          <Property Name="Ni_Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="NiLetter1" Type="String" Nullable="false" MaxLength="1" FixedLength="false" Unicode="true" />
+          <Property Name="Description" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Employees" Relationship="HRAppModel.FK_Employees_NILetters" FromRole="NILetter" ToRole="Employee" />
+        </EntityType>
         <EntityType Name="OfficeLocation">
           <Key>
             <PropertyRef Name="office_id" />
@@ -446,6 +530,15 @@
           <Property Name="office_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="OfficeLocation1" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <NavigationProperty Name="Employees" Relationship="HRAppModel.FK_Employees_OfficeLocations" FromRole="OfficeLocation" ToRole="Employee" />
+        </EntityType>
+        <EntityType Name="PayFrequency">
+          <Key>
+            <PropertyRef Name="Frequency_id" />
+          </Key>
+          <Property Name="Frequency_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="PayFrequency1" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
+          <Property Name="NumberOfPeriods" Type="Int32" />
+          <Property Name="Period_id" Type="Int32" />
         </EntityType>
         <EntityType Name="Qualification">
           <Key>
@@ -483,6 +576,15 @@
           <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="Default_Holiday" Type="Int32" />
           <Property Name="Holiday_Reset" Type="DateTime" Precision="0" />
+        </EntityType>
+        <EntityType Name="StudentLoan">
+          <Key>
+            <PropertyRef Name="Sloan_Id" />
+          </Key>
+          <Property Name="Sloan_Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="PlanType" Type="String" MaxLength="12" FixedLength="false" Unicode="true" />
+          <Property Name="AnnualThreshold" Type="Int32" />
+          <Property Name="PercentDeduction" Type="Decimal" Precision="4" Scale="0" />
         </EntityType>
         <EntityType Name="TypeOfEmployee">
           <Key>
@@ -548,6 +650,18 @@
             </Principal>
             <Dependent Role="Employee">
               <PropertyRef Name="MaritalStatusId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Employees_NILetters">
+          <End Type="HRAppModel.NILetter" Role="NILetter" Multiplicity="0..1" />
+          <End Type="HRAppModel.Employee" Role="Employee" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="NILetter">
+              <PropertyRef Name="Ni_Id" />
+            </Principal>
+            <Dependent Role="Employee">
+              <PropertyRef Name="NILetterId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -628,6 +742,17 @@
           <EntitySetMapping Name="Employees">
             <EntityTypeMapping TypeName="HRAppModel.Employee">
               <MappingFragment StoreEntitySet="Employees">
+                <ScalarProperty Name="PayBasis" ColumnName="PayBasis" />
+                <ScalarProperty Name="HoursPerPeriod" ColumnName="HoursPerPeriod" />
+                <ScalarProperty Name="HourlyRate" ColumnName="HourlyRate" />
+                <ScalarProperty Name="Frequency_id" ColumnName="Frequency_id" />
+                <ScalarProperty Name="PeriodSalary" ColumnName="PeriodSalary" />
+                <ScalarProperty Name="AnnualSalary" ColumnName="AnnualSalary" />
+                <ScalarProperty Name="PostGradLoan" ColumnName="PostGradLoan" />
+                <ScalarProperty Name="StudentLoanId" ColumnName="StudentLoanId" />
+                <ScalarProperty Name="NILetterId" ColumnName="NILetterId" />
+                <ScalarProperty Name="TaxBasisW1" ColumnName="TaxBasisW1" />
+                <ScalarProperty Name="TaxCode" ColumnName="TaxCode" />
                 <ScalarProperty Name="HolidaysLeft" ColumnName="HolidaysLeft" />
                 <ScalarProperty Name="HolidaysTaken" ColumnName="HolidaysTaken" />
                 <ScalarProperty Name="TotalHolidays" ColumnName="TotalHolidays" />
@@ -697,11 +822,30 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
+          <EntitySetMapping Name="NILetters">
+            <EntityTypeMapping TypeName="HRAppModel.NILetter">
+              <MappingFragment StoreEntitySet="NILetters">
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="NiLetter1" ColumnName="NiLetter" />
+                <ScalarProperty Name="Ni_Id" ColumnName="Ni_Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
           <EntitySetMapping Name="OfficeLocations">
             <EntityTypeMapping TypeName="HRAppModel.OfficeLocation">
               <MappingFragment StoreEntitySet="OfficeLocations">
                 <ScalarProperty Name="OfficeLocation1" ColumnName="OfficeLocation" />
                 <ScalarProperty Name="office_id" ColumnName="office_id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="PayFrequencies">
+            <EntityTypeMapping TypeName="HRAppModel.PayFrequency">
+              <MappingFragment StoreEntitySet="PayFrequencies">
+                <ScalarProperty Name="Period_id" ColumnName="Period_id" />
+                <ScalarProperty Name="NumberOfPeriods" ColumnName="NumberOfPeriods" />
+                <ScalarProperty Name="PayFrequency1" ColumnName="PayFrequency" />
+                <ScalarProperty Name="Frequency_id" ColumnName="Frequency_id" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -741,6 +885,16 @@
                 <ScalarProperty Name="Holiday_Reset" ColumnName="Holiday_Reset" />
                 <ScalarProperty Name="Default_Holiday" ColumnName="Default_Holiday" />
                 <ScalarProperty Name="id" ColumnName="id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="StudentLoans">
+            <EntityTypeMapping TypeName="HRAppModel.StudentLoan">
+              <MappingFragment StoreEntitySet="StudentLoan">
+                <ScalarProperty Name="PercentDeduction" ColumnName="PercentDeduction" />
+                <ScalarProperty Name="AnnualThreshold" ColumnName="AnnualThreshold" />
+                <ScalarProperty Name="PlanType" ColumnName="PlanType" />
+                <ScalarProperty Name="Sloan_Id" ColumnName="Sloan_Id" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

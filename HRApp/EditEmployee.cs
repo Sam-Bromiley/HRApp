@@ -18,6 +18,10 @@ namespace HRApp
         private bool isEditMode;
         private User _user;
         public bool isValid = true;
+
+
+
+        //Initialise fields for adding a new employees and set some fields as default
         public EditEmployee(User user, ManageEmployees manageEmployees = null)
         {
             InitializeComponent();
@@ -34,9 +38,16 @@ namespace HRApp
             tbTotalHolidays.Text = 26.ToString();
             tbHolidaysTaken.Text = "0";
             tbHolidaysLeft.Text = 26.ToString();
-            
+            cbPayFrequency.SelectedItem = "Monthly";
+            tbAnnualSalary.Text = "0";
+            tbPeriodSalary.Text = "0";
+            tbHourlyRate.Text = "0";
+            tbHoursPerPeriod.Text = "0";
+            CalculateNumberOfHolidays();
+
         }
 
+        //initialise fields for editing employee and pull through their details
         public EditEmployee(Employee employeeToEdit, User user, ManageEmployees manageEmployees = null)
         {
             InitializeComponent();
@@ -47,10 +58,13 @@ namespace HRApp
             PopulateFields(employeeToEdit);
             isEditMode = true;
             _user = user;
+            CalculateNumberOfHolidays();
         }
 
+        //Populate fields in employee record
         private void PopulateFields(Employee employeeToEdit)
         {
+
             lblId.Text = employeeToEdit.id.ToString();
             tbSurname.Text = employeeToEdit.Surname;
             tbForename.Text = employeeToEdit.Forename;
@@ -69,17 +83,78 @@ namespace HRApp
             dtDateLeft.Value = (DateTime)employeeToEdit.DateLeft;
             chkLeaver.Checked = (bool)employeeToEdit.Leaver;
             tbExtensionNumber.Text = employeeToEdit.ExtensionNumber.ToString();
-            cbDepartment.SelectedValue = employeeToEdit.DepartmentId;
-            cbOfficeLocation.SelectedValue = employeeToEdit.OfficeLocationId;
+            cbDepartment.SelectedValue = (int)employeeToEdit.DepartmentId;
+            cbOfficeLocation.SelectedValue = (int)employeeToEdit.OfficeLocationId;
             tbTotalHolidays.Text = employeeToEdit.TotalHolidays.ToString();
             tbHolidaysTaken.Text = employeeToEdit.HolidaysTaken.ToString();
             tbHolidaysLeft.Text = employeeToEdit.HolidaysLeft.ToString();
-            
+            tbAnnualSalary.Text = employeeToEdit.AnnualSalary.ToString();
+            tbPeriodSalary.Text = employeeToEdit.AnnualSalary.ToString();
+            cbStudentLoan.SelectedValue = (int)employeeToEdit.StudentLoanId;
+            chkPostgradLoan.Checked = (bool)employeeToEdit.PostGradLoan;
+            cbNILetters.SelectedValue = (int)employeeToEdit.NILetterId;
+            tbTaxCode.Text = employeeToEdit.TaxCode;
+            chkWeek1.Checked = (bool)employeeToEdit.TaxBasisW1;
+            tbHourlyRate.Text = employeeToEdit.HourlyRate.ToString();
+            tbHoursPerPeriod.Text = employeeToEdit.HoursPerPeriod.ToString();
+            if ((bool)employeeToEdit.PayBasis)
+            {
+                radSalary.Checked = true;
+            }
+            else 
+            {
+                radHourlyRate.Checked = true;
+            }
+
+
+            //addEditEmployee.AnnualSalary = int.Parse(tbAnnualSalary.Text);
+            //addEditEmployee.PeriodSalary = int.Parse(tbPeriodSalary.Text);
+            //addEditEmployee.StudentLoanId = (int)cbStudentLoan.SelectedValue;
+            //addEditEmployee.PostGradLoan = chkPostgradLoan.Checked;
+            //addEditEmployee.NILetterId = (int)cbNILetters.SelectedValue;
+            //addEditEmployee.TaxCode = tbTaxCode.Text;
+            //addEditEmployee.TaxBasisW1 = chkWeek1.Checked;
+
             PopulateHolidays();
+            PopulateFrequency();
 
 
         }
 
+        //change text on Period Salary and hours/period fields depending on frequency selected
+        private void PopulateFrequency()
+        {
+            try
+            {
+                if (cbPayFrequency.SelectedIndex == 0)
+                {
+                    lblPeriodSalary.Text = "Monthly Salary";
+                    lblHoursInPeriod.Text = "Hours/Month";
+                }
+                else if (cbPayFrequency.SelectedIndex == 1)
+                {
+                    lblPeriodSalary.Text = "Weekly Salary";
+                    lblHoursInPeriod.Text = "Hours/Week";
+                }
+                else if (cbPayFrequency.SelectedIndex == 2)
+                {
+                    lblPeriodSalary.Text = "Two Weekly Salary";
+                    lblHoursInPeriod.Text = "Hours/Two Weeks";
+                }
+                else if (cbPayFrequency.SelectedIndex == 3)
+                {
+                    lblPeriodSalary.Text = "Four Weekly Salary";
+                    lblHoursInPeriod.Text = "Hours/Four Weeks";
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Error: {ex.Message}");
+            }
+            
+        }
+
+        //populate the table of holidays for the employee
         private void PopulateHolidays()
         {
             var id = int.Parse(lblId.Text);
@@ -100,8 +175,10 @@ namespace HRApp
             gvEmployeeHolidays.Columns["isApproved"].HeaderText = "Approved";
             gvEmployeeHolidays.Columns["StartDate"].HeaderText = "Start Date";
             gvEmployeeHolidays.Columns["EndDate"].HeaderText = "End Date";
+            
         }
 
+        //load dropdowns on screen open and set colour if adding employee
         private void EditEmployee_Load(object sender, EventArgs e)
         {
             var gender = _db.Genders.ToList();
@@ -129,9 +206,21 @@ namespace HRApp
             cbOfficeLocation.DisplayMember = "OfficeLocation1";
             cbOfficeLocation.DataSource = officeLocations;
 
-            //var reportsTo = _db.Employees.ToList();
-            //cbReportsTo.ValueMember = "Forename" + " " + "Surname";
-            //cbReportsTo.DataSource = reportsTo;
+            var niLetters = _db.NILetters.ToList();
+            cbNILetters.ValueMember = "Ni_Id";
+            cbNILetters.DisplayMember = "NiLetter1";            
+            cbNILetters.DataSource = niLetters;
+
+            var payFrequencies = _db.PayFrequencies.ToList();
+            cbPayFrequency.ValueMember = "Frequency_id";
+            cbPayFrequency.DisplayMember = "PayFrequency1";
+            cbPayFrequency.DataSource = payFrequencies;
+
+            var studentLoan = _db.StudentLoans.ToList();
+            cbStudentLoan.ValueMember = "Sloan_Id";
+            cbStudentLoan.DisplayMember = "PlanType";
+            cbStudentLoan.DataSource = studentLoan;
+            
 
             if (!chkLeaver.Checked)
             {
@@ -146,9 +235,11 @@ namespace HRApp
                 tbAddress2.BackColor = Color.LightGoldenrodYellow;
                 tbPostcode.BackColor = Color.LightGoldenrodYellow;
                 tbNINO.BackColor = Color.LightGoldenrodYellow;
+                tbTaxCode.BackColor = Color.LightGoldenrodYellow;
                 lblMessage.Text = "Please ensure all mandatory fields highlighted have been filled out correctly before saving";
             }
 
+            //disable fields for reviewer role
             if (_user.RoleId == 3)
             {
                 tbSurname.Enabled = false;
@@ -193,7 +284,16 @@ namespace HRApp
             {
                 if (isEditMode)
                 {
-                    //Edit code
+                    bool payBasis = true;
+                    if (radSalary.Checked)
+                    {
+                        payBasis = true;
+                    }
+                    else if (radHourlyRate.Checked)
+                    {
+                        payBasis = false;
+                    }
+                    //save the fields to the database tha have been edited
                     var id = int.Parse(lblId.Text);
                     var addEditEmployee = _db.Employees.FirstOrDefault(q => q.id == id);
 
@@ -214,7 +314,6 @@ namespace HRApp
                     addEditEmployee.DateLeft = dtDateLeft.Value;
                     addEditEmployee.MaritalStatusId = (int)cbMaritalStatus.SelectedValue;
                     addEditEmployee.DepartmentId = (int)cbDepartment.SelectedValue;
-                    //addEditEmployee.ReportsToId = (int)cbReportsTo.SelectedValue;
                     addEditEmployee.OfficeLocationId = (int)cbOfficeLocation.SelectedValue;
                     addEditEmployee.TypeOfEmployeeId = (int)cbTypeOfEmployee.SelectedValue;
                     addEditEmployee.NationalInsuranceNo = tbNINO.Text;
@@ -226,6 +325,17 @@ namespace HRApp
                     addEditEmployee.TotalHolidays = int.Parse(tbTotalHolidays.Text);
                     addEditEmployee.HolidaysTaken = int.Parse(tbHolidaysTaken.Text);
                     addEditEmployee.HolidaysLeft = int.Parse(tbHolidaysLeft.Text);
+                    addEditEmployee.AnnualSalary = double.Parse(tbAnnualSalary.Text);
+                    addEditEmployee.PeriodSalary = double.Parse(tbPeriodSalary.Text);
+                    addEditEmployee.StudentLoanId = (int)cbStudentLoan.SelectedValue;
+                    addEditEmployee.PostGradLoan = chkPostgradLoan.Checked;
+                    addEditEmployee.NILetterId = (int)cbNILetters.SelectedValue;
+                    addEditEmployee.TaxCode = tbTaxCode.Text;
+                    addEditEmployee.TaxBasisW1 = chkWeek1.Checked;
+                    addEditEmployee.HourlyRate = double.Parse(tbHourlyRate.Text);
+                    addEditEmployee.HoursPerPeriod = double.Parse(tbHoursPerPeriod.Text);
+                    addEditEmployee.PayBasis = payBasis;
+                    
 
                     _db.SaveChanges();
                     _manageEmployees.PopulateEmployees();
@@ -234,9 +344,9 @@ namespace HRApp
                 else
                 {
                     
-                    
+                    //get new employee details on when adding
                     string ErrorMessage = "Please ensure you have filled out the following fields: \n\r";
-                    //Add code
+                    
                     string MiddleName = "";
                     string KnownAs = "";
                     string Address3 = "";
@@ -244,7 +354,7 @@ namespace HRApp
                     string JobTitle = "";
                     decimal Salary = 0;
                     int Extension = 0;
-
+                    //checking if fields have been updated and setting the values
                     if(tbMiddleName.Text != "Middle Name(s)")
                     {                    
                         MiddleName = tbMiddleName.Text;
@@ -275,8 +385,16 @@ namespace HRApp
                     {
                         Extension= int.Parse(tbExtensionNumber.Text);
                     }
-
-                    if(tbSurname.Text == "Surname" || tbSurname.Text == "")
+                    if (cbNILetters.SelectedValue == null)
+                    {
+                        cbNILetters.SelectedValue = 0;
+                    }
+                    if (cbStudentLoan.SelectedValue == null)
+                    {
+                        cbStudentLoan.SelectedValue = 0;
+                    }
+                    //validation for the fields to ensure values have been entered
+                    if (tbSurname.Text == "Surname" || tbSurname.Text == "")
                     {
                         isValid = false;
                         ErrorMessage += "Surname \n\r";
@@ -307,14 +425,27 @@ namespace HRApp
                         isValid = false;
                         ErrorMessage += "National Insurance Number";
                     }
-                    if(int.Parse(tbHolidaysLeft.Text) < 0)
+                    
+
+                    //check if employee has taken more holidays than allowance
+                    if (int.Parse(tbHolidaysLeft.Text) < 0)
                     {
                         isValid = false;
                         MessageBox.Show("Employee cannot take more holidays than their allowance \n\r" +
                         "Please correct this before saving");
                     }
+                    //adding employee to database
                     if (isValid)
                     {
+                        bool payBasis = true;
+                        if (radSalary.Checked)
+                        {
+                            payBasis = true;
+                        }
+                        else if(radHourlyRate.Checked)
+                        {
+                            payBasis = false;
+                        }
                         var addEditEmployee = new Employee
                         {
                             Surname = tbSurname.Text,
@@ -342,9 +473,18 @@ namespace HRApp
                             Leaver = chkLeaver.Checked,
                             TotalHolidays = int.Parse(tbTotalHolidays.Text),
                             HolidaysTaken = int.Parse(tbHolidaysTaken.Text),
-                            HolidaysLeft = int.Parse(tbHolidaysLeft.Text)
-
-                            
+                            HolidaysLeft = int.Parse(tbHolidaysLeft.Text),
+                            TaxCode = tbTaxCode.Text,
+                            TaxBasisW1 = chkWeek1.Checked,
+                            NILetterId = (int)cbNILetters.SelectedValue,
+                            AnnualSalary = double.Parse(tbAnnualSalary.Text),
+                            PeriodSalary = double.Parse(tbPeriodSalary.Text),
+                            StudentLoanId = (int)cbStudentLoan.SelectedValue,
+                            PostGradLoan = chkPostgradLoan.Checked,
+                            Frequency_id = (int)cbPayFrequency.SelectedValue,
+                            HourlyRate = double.Parse(tbHourlyRate.Text),
+                            HoursPerPeriod = double.Parse(tbHoursPerPeriod.Text),
+                            PayBasis = payBasis
 
                         };
 
@@ -371,6 +511,7 @@ namespace HRApp
             
         }
 
+        //enable date left field if leaver is checked
         private void chkLeaver_CheckedChanged(object sender, EventArgs e)
         {
             if (!chkLeaver.Checked)
@@ -382,7 +523,7 @@ namespace HRApp
                 dtDateLeft.Enabled = true;
             }
         }
-
+        //setting fields to blank if not been edited
         private void tbSurname_Click(object sender, EventArgs e)
         {
             if (tbSurname.Text == "Surname")
@@ -456,6 +597,7 @@ namespace HRApp
 
         }
 
+        //Open qualifications page
         private void btnQualifications_Click(object sender, EventArgs e)
         {
             var id = int.Parse(lblId.Text);
@@ -466,6 +608,8 @@ namespace HRApp
             qualifications.Show();
 
         }
+
+        //calculate holidays left field based on total and holidays taken
         private void CalculateHolidays()
         {
             try
@@ -490,13 +634,13 @@ namespace HRApp
             }
             catch (Exception ex)
             {
-                MessageBox.Show($"Error: {ex.Message}");
+                MessageBox.Show($"Holidays Error: {ex.Message}");
             }
             
         }
 
        
-
+        //run CalculateHolidays method when clicking out of either total holidays or holidays taken
         private void tbTotalHolidays_Leave(object sender, EventArgs e)
         {
             CalculateHolidays();
@@ -507,19 +651,22 @@ namespace HRApp
             CalculateHolidays();
         }
 
+        //save a new holiday record 
         private void btnSubmitHoliday_Click(object sender, EventArgs e)
         {
             try
             {
                 DateTime holStart = Convert.ToDateTime(dtHolidayStart.Value);
                 DateTime holEnd = Convert.ToDateTime(dtHolidayEnd.Value);
-                if(!isEditMode)
+                int numberOfHolidays = int.Parse(tbNumberOfHolidays.Text);
+                int HolidaysTaken = int.Parse(tbHolidaysTaken.Text);
+                if (!isEditMode) // cannot add to new employee and needs to be current
                 {
                     MessageBox.Show("Please save the employees record before adding holidays");
                 }
-                else if (holStart > holEnd)
+                else if (holStart > holEnd) //checking holiday dates are valid
                 {
-                    MessageBox.Show("Please enter valid dates");
+                    MessageBox.Show("Please enter valid dates"); 
                 }
                 else
                 {
@@ -533,17 +680,20 @@ namespace HRApp
                             Employee_id = int.Parse(lblId.Text),
                             StartDate = dtHolidayStart.Value,
                             EndDate = dtHolidayEnd.Value,
-                            NumberOfDays = holEnd.Subtract(holStart).Days,
+                            NumberOfDays = (holEnd.Subtract(holStart).Days) + 1,
                             Notes = tbNotes.Text,
                             isApproved = chApproved.Checked
                         };
+                       
                         _db.Holidays.Add(newHolidayRequest);
                         _db.SaveChanges();
 
                     }
                 }
-
-                PopulateHolidays();
+                int id = int.Parse(lblId.Text);
+                var employee = _db.Employees.FirstOrDefault(q => q.id == id);
+                employee.HolidaysTaken += numberOfHolidays; //add number of holidays added to holidays taken field
+                PopulateFields(employee); //populate details so that all holidays can be recalculated
             }
             catch (Exception ex)
             {
@@ -554,14 +704,19 @@ namespace HRApp
 
         }
 
-       
+       //edit holidays --not yet implemented
         private void btnEditHoliday_Click(object sender, EventArgs e)
         {
             
         }
 
+        //removed holiday record
         private void btnDeleteHoliday_Click(object sender, EventArgs e)
         {
+            DateTime holStart = Convert.ToDateTime(dtHolidayStart.Value);
+            DateTime holEnd = Convert.ToDateTime(dtHolidayEnd.Value);
+            int numberOfHolidays = int.Parse(tbNumberOfHolidays.Text);
+            int HolidaysTaken = int.Parse(tbHolidaysTaken.Text);
             var id = (int)gvEmployeeHolidays.SelectedRows[0].Cells["id"].Value;
             var holiday = _db.Holidays.FirstOrDefault(q => q.id == id);
             DialogResult dr = MessageBox.Show($"Are you sure you want delete the holiday entry for {tbForename.Text} {tbSurname.Text} for the following dates: \n\r" +
@@ -571,8 +726,153 @@ namespace HRApp
             {
                 _db.Holidays.Remove(holiday);
                 _db.SaveChanges();
-                PopulateHolidays();
+                
+                int employee_id = int.Parse(lblId.Text);
+                var employee = _db.Employees.FirstOrDefault(q => q.id == employee_id);
+                employee.HolidaysTaken -= (numberOfHolidays + 1);
+                PopulateFields(employee);
             }
+        }
+
+
+        //calculate number of holidays before adding a new record
+        private void CalculateNumberOfHolidays()
+        {
+            DateTime holStart = Convert.ToDateTime(dtHolidayStart.Value);
+            DateTime holEnd = Convert.ToDateTime(dtHolidayEnd.Value);
+            if (holStart > holEnd)
+            {
+                MessageBox.Show("Please enter valid dates");
+            } else
+            {
+                int numberOfDays = (holEnd.Subtract(holStart).Days) + 1;
+                tbNumberOfHolidays.Text = numberOfDays.ToString();
+            }
+
+        }
+
+        //run CalculateNumberOfHolidays method to calculate number of holidays before adding a new record
+        private void dtHolidayStart_ValueChanged(object sender, EventArgs e)
+        {
+            CalculateNumberOfHolidays();
+        }
+
+
+        //run CalculateNumberOfHolidays method to calculate number of holidays before adding a new record
+        private void dtHolidayEnd_ValueChanged(object sender, EventArgs e)
+        {
+            CalculateNumberOfHolidays();
+        }
+
+        //on changing frequency, change the text and recalculate period salary
+        private void cbPayFrequency_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            PopulateFrequency();
+            CalculatePeriodSalary();
+        }
+
+        
+        //calculate period salary by dividing annual salary by number of periods in frequency
+        private void CalculatePeriodSalary()
+        {
+            try
+            {
+                double periodSalary = 0;
+                var numberOfPeriods = 12;
+                if (cbPayFrequency.SelectedIndex == 1)
+                {
+                    numberOfPeriods = 52;
+                }
+                else if (cbPayFrequency.SelectedIndex == 2)
+                {
+                    numberOfPeriods = 26;
+                }
+                else if (cbPayFrequency.SelectedIndex == 3)
+                {
+                    numberOfPeriods = 13;
+                }
+                if (radSalary.Checked)
+                {
+                    periodSalary = Math.Round(double.Parse(tbAnnualSalary.Text) / numberOfPeriods, 2);
+                    tbPeriodSalary.Text = periodSalary.ToString();
+                }
+                else if(radHourlyRate.Checked)
+                {
+                    periodSalary = Math.Round(double.Parse(tbHourlyRate.Text) * double.Parse(tbHoursPerPeriod.Text), 2);
+                    tbPeriodSalary.Text = periodSalary.ToString();
+                }
+                
+                
+                
+                
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Period salary Error: {ex.Message}");
+            }
+        }
+
+       //calculate period salary by multiplying number of periods in frequency by period salary
+        private void CalculateAnnualSalary()
+        {
+            try
+            {
+                var numberOfPeriods = 12;
+                if (cbPayFrequency.SelectedIndex == 1)
+                {
+                    numberOfPeriods = 52;
+                }
+                else if (cbPayFrequency.SelectedIndex == 2)
+                {
+                    numberOfPeriods = 26;
+                }
+                else if (cbPayFrequency.SelectedIndex == 3)
+                {
+                    numberOfPeriods = 13;
+                }
+                double annualSalary = Math.Round(double.Parse(tbPeriodSalary.Text) * numberOfPeriods, 2);
+                tbAnnualSalary.Text = annualSalary.ToString();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Annual salary Error: {ex.Message}");
+            }
+        }
+
+        //calculate period salary after entering it in annual salary and clicking out the box
+        private void tbAnnualSalary_Leave(object sender, EventArgs e)
+        {
+            CalculatePeriodSalary();
+        }
+
+        //calculate annual salary after entering it in period salary and clicking out the box
+        private void tbPeriodSalary_Leave(object sender, EventArgs e)
+        {
+            CalculateAnnualSalary();
+        }
+
+        private void radHourlyRate_Click(object sender, EventArgs e)
+        {
+            CalculatePeriodSalary();
+            CalculateAnnualSalary();
+        }
+
+        private void radSalary_Click(object sender, EventArgs e)
+        {
+            CalculatePeriodSalary();
+            CalculateAnnualSalary();
+        }
+
+        private void tbHoursPerPeriod_Leave(object sender, EventArgs e)
+        {
+            CalculatePeriodSalary();
+            CalculateAnnualSalary();
+        }
+
+        private void tbHourlyRate_Leave(object sender, EventArgs e)
+        {
+            CalculatePeriodSalary();
+            CalculateAnnualSalary();
         }
     }
 }
