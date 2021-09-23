@@ -50,8 +50,6 @@ namespace HRApp
             this.lblOfficeLocation = new System.Windows.Forms.Label();
             this.cbTypeOfEmployee = new System.Windows.Forms.ComboBox();
             this.lblTypeOfEmployee = new System.Windows.Forms.Label();
-            this.tbSalary = new System.Windows.Forms.TextBox();
-            this.lblSalary = new System.Windows.Forms.Label();
             this.cbDepartment = new System.Windows.Forms.ComboBox();
             this.lblDepartment = new System.Windows.Forms.Label();
             this.tbJobTitle = new System.Windows.Forms.TextBox();
@@ -132,6 +130,7 @@ namespace HRApp
             this.lblMessage = new System.Windows.Forms.Label();
             this.radSalary = new System.Windows.Forms.RadioButton();
             this.radHourlyRate = new System.Windows.Forms.RadioButton();
+            this.chkHideSalary = new System.Windows.Forms.CheckBox();
             this.tabEmployees.SuspendLayout();
             this.tabMain.SuspendLayout();
             this.gbAddress.SuspendLayout();
@@ -221,8 +220,6 @@ namespace HRApp
             this.tabMain.Controls.Add(this.lblOfficeLocation);
             this.tabMain.Controls.Add(this.cbTypeOfEmployee);
             this.tabMain.Controls.Add(this.lblTypeOfEmployee);
-            this.tabMain.Controls.Add(this.tbSalary);
-            this.tabMain.Controls.Add(this.lblSalary);
             this.tabMain.Controls.Add(this.cbDepartment);
             this.tabMain.Controls.Add(this.lblDepartment);
             this.tabMain.Controls.Add(this.tbJobTitle);
@@ -364,23 +361,6 @@ namespace HRApp
             this.lblTypeOfEmployee.Size = new System.Drawing.Size(92, 13);
             this.lblTypeOfEmployee.TabIndex = 49;
             this.lblTypeOfEmployee.Text = "Type of Employee";
-            // 
-            // tbSalary
-            // 
-            this.tbSalary.BackColor = System.Drawing.SystemColors.Window;
-            this.tbSalary.Location = new System.Drawing.Point(133, 456);
-            this.tbSalary.Name = "tbSalary";
-            this.tbSalary.Size = new System.Drawing.Size(200, 20);
-            this.tbSalary.TabIndex = 48;
-            // 
-            // lblSalary
-            // 
-            this.lblSalary.AutoSize = true;
-            this.lblSalary.Location = new System.Drawing.Point(91, 459);
-            this.lblSalary.Name = "lblSalary";
-            this.lblSalary.Size = new System.Drawing.Size(36, 13);
-            this.lblSalary.TabIndex = 46;
-            this.lblSalary.Text = "Salary";
             // 
             // cbDepartment
             // 
@@ -901,6 +881,7 @@ namespace HRApp
             // 
             // gbSalary
             // 
+            this.gbSalary.Controls.Add(this.chkHideSalary);
             this.gbSalary.Controls.Add(this.radHourlyRate);
             this.gbSalary.Controls.Add(this.radSalary);
             this.gbSalary.Controls.Add(this.lblPayBasis);
@@ -916,7 +897,7 @@ namespace HRApp
             this.gbSalary.Controls.Add(this.lblAnnualSalary);
             this.gbSalary.Location = new System.Drawing.Point(513, 6);
             this.gbSalary.Name = "gbSalary";
-            this.gbSalary.Size = new System.Drawing.Size(385, 205);
+            this.gbSalary.Size = new System.Drawing.Size(385, 223);
             this.gbSalary.TabIndex = 67;
             this.gbSalary.TabStop = false;
             this.gbSalary.Text = "Salary";
@@ -1033,7 +1014,7 @@ namespace HRApp
             this.gbTaxNI.Controls.Add(this.tbTaxCode);
             this.gbTaxNI.Location = new System.Drawing.Point(6, 6);
             this.gbTaxNI.Name = "gbTaxNI";
-            this.gbTaxNI.Size = new System.Drawing.Size(485, 205);
+            this.gbTaxNI.Size = new System.Drawing.Size(485, 223);
             this.gbTaxNI.TabIndex = 66;
             this.gbTaxNI.TabStop = false;
             this.gbTaxNI.Text = "Tax and NI";
@@ -1170,6 +1151,20 @@ namespace HRApp
             this.radHourlyRate.UseVisualStyleBackColor = true;
             this.radHourlyRate.Click += new System.EventHandler(this.radHourlyRate_Click);
             // 
+            // chkHideSalary
+            // 
+            this.chkHideSalary.AutoSize = true;
+            this.chkHideSalary.Font = new System.Drawing.Font("Microsoft Sans Serif", 7F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.chkHideSalary.Location = new System.Drawing.Point(265, 192);
+            this.chkHideSalary.Name = "chkHideSalary";
+            this.chkHideSalary.RightToLeft = System.Windows.Forms.RightToLeft.Yes;
+            this.chkHideSalary.Size = new System.Drawing.Size(114, 17);
+            this.chkHideSalary.TabIndex = 76;
+            this.chkHideSalary.Text = "Hide Salary Values";
+            this.chkHideSalary.UseVisualStyleBackColor = true;
+            this.chkHideSalary.CheckedChanged += new System.EventHandler(this.chkHideSalary_CheckedChanged);
+            this.chkHideSalary.CheckStateChanged += new System.EventHandler(this.chkHideSalary_CheckStateChanged);
+            // 
             // EditEmployee
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -1234,8 +1229,6 @@ namespace HRApp
         private System.Windows.Forms.Label lblOfficeLocation;
         private System.Windows.Forms.ComboBox cbTypeOfEmployee;
         private System.Windows.Forms.Label lblTypeOfEmployee;
-        private System.Windows.Forms.TextBox tbSalary;
-        private System.Windows.Forms.Label lblSalary;
         private System.Windows.Forms.ComboBox cbDepartment;
         private System.Windows.Forms.Label lblDepartment;
         private System.Windows.Forms.TextBox tbJobTitle;
@@ -1313,5 +1306,6 @@ namespace HRApp
         private System.Windows.Forms.Label lblPayBasis;
         private System.Windows.Forms.RadioButton radHourlyRate;
         private System.Windows.Forms.RadioButton radSalary;
+        private System.Windows.Forms.CheckBox chkHideSalary;
     }
 }

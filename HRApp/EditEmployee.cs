@@ -78,7 +78,7 @@ namespace HRApp
             dtDateOfBirth.Value = (DateTime)employeeToEdit.DateOfBirth;
             tbNINO.Text = employeeToEdit.NationalInsuranceNo;
             tbJobTitle.Text = employeeToEdit.JobTitle;
-            tbSalary.Text = employeeToEdit.Salary.ToString();
+            //tbSalary.Text = employeeToEdit.Salary.ToString();
             dtDateStarted.Value = (DateTime)employeeToEdit.DateStarted;
             dtDateLeft.Value = (DateTime)employeeToEdit.DateLeft;
             chkLeaver.Checked = (bool)employeeToEdit.Leaver;
@@ -239,6 +239,22 @@ namespace HRApp
                 lblMessage.Text = "Please ensure all mandatory fields highlighted have been filled out correctly before saving";
             }
 
+            //hide salary values
+            if(chkHideSalary.Checked)
+                if (chkHideSalary.Checked)
+                {
+                    tbAnnualSalary.PasswordChar = '*';
+                    tbPeriodSalary.PasswordChar = '*';
+                    tbHourlyRate.PasswordChar = '*';
+                }
+                else
+                {
+                    tbAnnualSalary.PasswordChar = '\0';
+                    tbPeriodSalary.PasswordChar = '\0';
+                    tbHourlyRate.PasswordChar = '\0';
+                }
+
+
             //disable fields for reviewer role
             if (_user.RoleId == 3)
             {
@@ -257,7 +273,7 @@ namespace HRApp
                 cbMaritalStatus.Enabled = false;
                 tbJobTitle.Enabled = false;
                 cbDepartment.Enabled = false;
-                tbSalary.Enabled = false;
+                //tbSalary.Enabled = false;
                 dtDateStarted.Enabled = false;
                 chkLeaver.Enabled = false;
                 dtDateLeft.Enabled = false;
@@ -270,6 +286,8 @@ namespace HRApp
                 tbTotalHolidays.Enabled = false;
                 tbHolidaysTaken.Enabled = false;
                 tbHolidaysLeft.Enabled = false;
+                chkHideSalary.Checked = true;
+                chkHideSalary.Enabled = false;
             }
         }
 
@@ -318,8 +336,8 @@ namespace HRApp
                     addEditEmployee.TypeOfEmployeeId = (int)cbTypeOfEmployee.SelectedValue;
                     addEditEmployee.NationalInsuranceNo = tbNINO.Text;
                     addEditEmployee.JobTitle = tbJobTitle.Text;
-                    double editSalary = double.Parse(tbSalary.Text);
-                    addEditEmployee.Salary = (decimal)editSalary;
+                    //double editSalary = double.Parse(tbSalary.Text);
+                    //addEditEmployee.Salary = (decimal)editSalary;
                     addEditEmployee.ExtensionNumber = int.Parse(tbExtensionNumber.Text);
                     addEditEmployee.Leaver = chkLeaver.Checked;
                     addEditEmployee.TotalHolidays = int.Parse(tbTotalHolidays.Text);
@@ -377,10 +395,10 @@ namespace HRApp
                     {
                         JobTitle = tbJobTitle.Text;
                     }
-                    if (tbSalary.Text != "")
-                    {
-                        Salary = decimal.Parse(tbSalary.Text);
-                    }
+                    //if (tbSalary.Text != "")
+                    //{
+                       // Salary = decimal.Parse(tbSalary.Text);
+                   // }
                     if (tbExtensionNumber.Text != "")
                     {
                         Extension= int.Parse(tbExtensionNumber.Text);
@@ -873,6 +891,38 @@ namespace HRApp
         {
             CalculatePeriodSalary();
             CalculateAnnualSalary();
+        }
+
+        private void chkHideSalary_CheckedChanged(object sender, EventArgs e)
+        {
+            if (chkHideSalary.Checked)
+            {
+                tbAnnualSalary.PasswordChar = '*';
+                tbPeriodSalary.PasswordChar = '*';
+                tbHourlyRate.PasswordChar = '*';
+            }
+            else
+            {
+                tbAnnualSalary.PasswordChar = '\0';
+                tbPeriodSalary.PasswordChar = '\0';
+                tbHourlyRate.PasswordChar = '\0';
+            }
+        }
+
+        private void chkHideSalary_CheckStateChanged(object sender, EventArgs e)
+        {
+            if (chkHideSalary.Checked)
+            {
+                tbAnnualSalary.PasswordChar = '*';
+                tbPeriodSalary.PasswordChar = '*';
+                tbHourlyRate.PasswordChar = '*';
+            } else
+            {
+                tbAnnualSalary.PasswordChar = '\0';
+                tbPeriodSalary.PasswordChar = '\0';
+                tbHourlyRate.PasswordChar = '\0';
+            }
+
         }
     }
 }
